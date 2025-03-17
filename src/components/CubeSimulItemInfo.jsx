@@ -176,7 +176,7 @@ function CubeSimulItemInfo({
         <span className="text-green-200"> 잠재 비용</span> 설정을 해주세요!
       </div>
 
-      <div className="flex gap-5 items-center justify-center">
+      <div className="w-full flex flex-col lg:flex-row gap-2 items-center justify-center">
         <div className="flex flex-col gap-2 justify-center items-center">
           <label className=" shadow-md px-5 py-1 radio-span bg-blue-200">
             1~159

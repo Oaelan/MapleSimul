@@ -1,0 +1,396 @@
+/*둥근모 폰트*/
+@font-face {
+  font-family: "DungGeunMo";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+#cubeSimulatorDiv {
+  display: grid;
+  grid-template-columns: 2fr 8fr;
+  gap: 30px;
+}
+#cubeSimulator {
+  background: linear-gradient(#1e3c72, #a8caeb);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 10px;
+  border: 1px solid rgba(24, 24, 24, 0.8);
+  padding: 10px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+#cube-title {
+  font-weight: bold;
+  color: white;
+  text-shadow: 1px 1px 10px #8491f2;
+  padding-bottom: 10px;
+  font-family: "Galmuri11", sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+
+#cube-header {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  background: rgb(118, 179, 254);
+  background: linear-gradient(
+    90deg,
+    rgba(118, 179, 254, 1) 0%,
+    rgba(105, 147, 254, 1) 17%,
+    rgba(89, 181, 251, 1) 75%
+  );
+  gap: 5px;
+  padding: 5px;
+  font-size: 13px;
+  color: white;
+  border-radius: 10px;
+  border: 1px solid #7479c1;
+}
+#cube-header p span {
+  color: yellow;
+}
+#cube-header img {
+  width: 25px;
+  height: 25px;
+  object-fit: contain;
+}
+
+#cube-body {
+  background-color: rgb(255, 255, 255);
+  width: 100%;
+  border: 0.1px solid black;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  border-radius: 10px;
+}
+
+#item-imageDv {
+  position: relative;
+  display: flex;
+  background: linear-gradient(
+    90deg,
+    rgba(118, 179, 254, 1) 0%,
+    rgba(105, 147, 254, 1) 17%,
+    rgba(89, 181, 251, 1) 75%
+  );
+  height: 120px;
+  justify-content: center;
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid #7479c1;
+  align-items: center;
+}
+#item-imageDv img {
+  width: 50px;
+  height: fit-content;
+  object-fit: contain;
+}
+#cube-before {
+  background: linear-gradient(
+    90deg,
+    #a1c4fd 0%,
+    rgb(89 181 251) 17%,
+    #c2e9fb 75%
+  );
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-radius: 10px;
+  border: 1px solid rgb(67 126 168);
+}
+#cube-before-info {
+  padding: 10px;
+  background-color: #202b3e;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: white;
+  height: 150px;
+}
+#cube-footer {
+  padding: 5px;
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+}
+.cube-stats {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.cube-stats li {
+  list-style: none;
+  font-family: "Galmuri14", sans-serif;
+  font-size: 12px;
+}
+.cube-tier {
+  text-align: center;
+  background: rgb(255, 255, 255);
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(237, 237, 237, 0.5200674019607843) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  color: yellow;
+  font-family: "GalmuriMono9", sans-serif;
+  text-shadow: 1px 1px 10px #ffef5e;
+}
+#cube-after {
+  border-radius: 10px;
+  background: linear-gradient(
+    90deg,
+    #a1c4fd 0%,
+    rgb(89 181 251) 17%,
+    #c2e9fb 75%
+  );
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid rgb(67 126 168);
+}
+
+#cube-after-info {
+  background-color: #202b3e;
+  border-radius: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+#oneMoreBtn {
+  width: 100%;
+  background: linear-gradient(
+    to bottom,
+    #95e123,
+    #9dfd03
+  ); /* 연두색에서 초록색으로 그라디언트 */
+  border: 1px solid rgb(12, 129, 6);
+  padding: 2px;
+}
+.titleAndOkBtn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.confirm {
+  width: 40px;
+  background: linear-gradient(#f9b121, #ff9d00); /* 주황색 그라데이션 */
+  border: 1px solid rgb(226, 126, 5);
+}
+.cube-button {
+  border-radius: 8px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  color: #ffffff;
+  font-family: "Galmuri11", sans-serif;
+  font-size: 11px;
+  text-shadow: 2px 2px 3px rgba(113, 116, 113, 0.31);
+  cursor: pointer;
+}
+#oneMoreBtn:hover {
+  background: linear-gradient(#cbf860, #7bf38b);
+  color: #5658fa;
+}
+.confirm:hover {
+  background: linear-gradient(#f7ce4a, #fb8b6c);
+  color: #f41fb8;
+}
+.titleAndOkBtn p {
+  width: 50px;
+  background-color: rgba(36, 36, 36, 0.509);
+  text-align: center;
+  border-radius: 6px;
+  color: rgb(255, 255, 255);
+  font-size: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.585);
+  padding: 1px 0 0 0;
+  font-family: "Galmuri14", sans-serif;
+  font-size: 9px;
+}
+#cube-footer {
+  width: 100%;
+}
+
+#cubeSimulationResultDiv {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  width: 400px;
+}
+
+#cubeSimulationResultDiv span {
+  font-family: "Galmuri14", sans-serif;
+}
+
+#cubeSimulationResultDiv h2 {
+  font-family: "Galmuri11", sans-serif;
+}
+#cubeSimulationResultDiv span {
+  font-family: "Galmuri14", sans-serif;
+}
+#cubeAllResultCost {
+  font-family: "Galmuri7", sans-serif;
+  font-size: 15px;
+  color: #effc00;
+  background: none;
+}
+#cubeAllResultCount {
+  font-family: "Galmuri7", sans-serif;
+  font-size: 15px;
+  color: #3629ff;
+  background: none;
+}
+/* ----- cubeSimulatorEquimentsInfo ------*/
+#cubeSimulatorEquimentsInfo {
+  display: flex;
+  flex-direction: column;
+  border: 2px dashed #004138;
+}
+#cubeSimulatorEquimentsInfo h2 {
+  font-family: "Galmuri11", sans-serif;
+}
+#cubeSimulatorEquimentsInfo span {
+  font-family: "Galmuri14", sans-serif;
+  font-size: 12px;
+}
+#cubeSimulEquiTitle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #a4ffa2;
+  padding: 10px;
+}
+#cubeSimulEquiListsDiv {
+  width: 100%;
+  height: 100%;
+  background: white;
+}
+#cubeSimulEquiPartsDiv {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  gap: 20px;
+}
+#cubeSimulType {
+  display: flex;
+  gap: 5px;
+}
+#cubeSimulType label {
+  border-radius: 10px;
+  display: flex;
+  width: 70px;
+  justify-content: center;
+  gap: 3px;
+  padding: 1px;
+  font-family: "Galmuri14", sans-serif;
+  font-size: 12px;
+}
+#cubeSimulTypePot {
+  background: linear-gradient(#ff9a9e, #fad0c4);
+}
+#cubeSimulTypeAddi {
+  background: linear-gradient(#a1c4fd, #c2e9fb);
+}
+#cubeSimulEquiPresetButtons {
+  display: flex;
+  width: 100%;
+  gap: 1px;
+  background: #000000;
+  border-top: 1px solid;
+  border-bottom: 1px solid;
+}
+.cubeSimulEquiPresetButton {
+  width: 100%;
+  font-family: "Galmuri14", sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  background: white;
+  padding: 5px;
+}
+.cubeSimulEquiPresetButton.active {
+  background-image: linear-gradient(to top, #0ba360 0%, #3cba92 100%);
+  color: white;
+  font-family: "Galmuri11", sans-serif;
+  font-weight: bold;
+  color: #ffde00;
+}
+
+#cubeSimulEquiListsDiv {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* 가로로 4개의 열 생성 */
+  gap: 30px; /* 요소 간의 간격 */
+  padding: 30px;
+}
+#cubeSimulEquiListsDiv span {
+  font-size: 20px;
+  text-align: center;
+  font-weight: bold;
+  font-family: "Galmuri11", sans-serif;
+  color: #004137;
+}
+.cubeSimulEqui {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: aliceblue;
+  height: fit-content;
+  align-items: center;
+  border-radius: 12px;
+  border: 0.2px solid #000000;
+  box-shadow: 7px 6px 0px #d0d0d0;
+}
+.cubeSimulEquiImg {
+  align-items: center;
+  gap: 10px;
+}
+.cubeSimulEquiParts {
+  padding: 10px;
+  background-image: linear-gradient(-60deg, #16a085 0%, #f4d03f 100%);
+  width: 100%;
+  text-align: center;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+.cubeSimulEquiLevel {
+  padding: 10px;
+  background-image: linear-gradient(-60deg, #16a085 0%, #f4d03f 100%);
+  width: 100%;
+  text-align: center;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+.cubeSimulEquiImgDiv {
+  width: fit-content;
+  height: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.cube-result-scrollbar::-webkit-scrollbar-track {
+  background: #1e293b;
+  border-radius: 4px;
+}
+
+.cube-result-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #0ea5e9;
+  border-radius: 4px;
+  border: 2px solid #1e293b;
+}
+
+.cube-result-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #38bdf8;
+}

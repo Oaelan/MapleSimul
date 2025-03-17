@@ -931,7 +931,9 @@ function CubeSimulatorInfo() {
               {/* 천장 카운트 표시 추후에 수정좀 해야함 !! */}
               <div className="flex flex-col gap-2 items-center justify-center">
                 <span className="text-sm font-galmuri text-white">
-                  천장 {tierUpCount.current} / {capValue || "MAX"}
+                  {koreanTier === "레전드리"
+                    ? "MAX"
+                    : `천장 ${tierUpCount.current} / ${capValue || "0"}`}
                 </span>
                 <div className="bg-amber-300 w-full h-[3px]"></div>
               </div>

@@ -12,13 +12,11 @@ function CubeSimulItemInfo({
   setCapValue,
 }) {
   // 아이템 정보 상태
-  const itemInfo = useCubeSimulItemInfoStore((state) => state.itemInfo);
-  // 아이템 정보 설정 함수
-  const setItemInfo = useCubeSimulItemInfoStore((state) => state.setItemInfo);
-  // 아이템 정보 초기화 함수
-  const initializeItemInfos = useCubeSimulItemInfoStore(
-    (state) => state.initializeItemInfo
-  );
+  const {
+    itemInfo,
+    setItemInfo,
+    initializeItemInfo: initializeItemInfo,
+  } = useCubeSimulItemInfoStore();
   const handleChangeSelect = (e) => {
     const { name, value } = e.target;
     //setItemInfo({ ...itemInfo, [name]: value });
@@ -130,7 +128,7 @@ function CubeSimulItemInfo({
           <button
             onClick={() => {
               // 아이템 정보 초기화
-              initializeItemInfos();
+              initializeItemInfo();
               setTierUpCount(0);
               setSimulCount(0);
               setKoreanTier("-");

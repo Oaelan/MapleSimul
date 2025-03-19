@@ -328,7 +328,7 @@ function CubeSimulatorInfo() {
       addTierUpHistory(`${beforeTier} -> ${nextTier} ${reason}`);
 
       // 등급업 상태 업데이트
-      upgradeTier(nextTier);
+      upgradeTier(nextTier); //store에서 관리되는 시뮬아이템 정보의 등급 업데이트
       isTierUp.current = true;
       resetTierUpCount();
 
@@ -340,8 +340,9 @@ function CubeSimulatorInfo() {
   };
   //시뮬레이션 장비에 해당하는 뽑힐수 있는 옵션 정보 가져오기
   const getOptions = () => {
-    // console.log("itemInfo", itemInfo);
     const currentItemInfo = getCurrentItemInfo();
+    //console.log("currentItemInfo", currentItemInfo);
+
     const AllEquimentOptions = {
       weaponLv100,
       weaponLv110,
@@ -773,50 +774,38 @@ function CubeSimulatorInfo() {
   //잠재 능력 재설정 버튼 클릭 시 simulCount 증가에 따른 시뮬 실행
   const handleSimul = () => {
     // 아이템 정보가 모두 있는 경우에만 시뮬레이션 실행
-    if (
-      itemInfo.type &&
-      itemInfo.parts &&
-      itemInfo.level &&
-      itemInfo.tier &&
-      itemInfo.costRange
-    ) {
-      console.log("itemInfo", itemInfo);
-      let optionList;
-      //윗잠인 경우
-      if (itemInfo.type === "potential") {
-        //큐브 시물 비용
-        getTierCost(itemInfo);
-        // 버튼을 눌렀을 경우에만 실행이 되도록
-        //cubeTierUp에서 등급업 진행 후 업데이트된 정보 생성
-        // 업데이트된 정보 생성
-        cubeTierUp(pontentialCapValue, potentialUpgradeProbabilities);
-        //시뮬레이션 장비에 해당하는 옵션 리스트 가져오기
-        optionList = getOptions();
-        if (optionList) {
-          const first = getRandomOption(optionList.options.firstOption);
-          const second = getRandomOption(optionList.options.secondOption);
-          const third = getRandomOption(optionList.options.thirdOption);
+    //console.log("itemInfo", itemInfo);
+    let optionList;
+    //윗잠인 경우
+    if (itemInfo.type === "potential") {
+      //큐브 시물 비용
+      getTierCost(itemInfo); //업그레이드 직전까지는 이전 등급의 비용을 가져오도록
+      //cubeTierUp에서 등급업 진행 후 업데이트된 정보 생성
+      cubeTierUp(pontentialCapValue, potentialUpgradeProbabilities);
+      //시뮬레이션 장비에 해당하는 옵션 리스트 가져오기
+      optionList = getOptions();
+      if (optionList) {
+        const first = getRandomOption(optionList.options.firstOption);
+        const second = getRandomOption(optionList.options.secondOption);
+        const third = getRandomOption(optionList.options.thirdOption);
 
-          setSimulResultOption([first.option, second.option, third.option]);
-        }
-        //아랫잠인 경우
-      } else {
-        //큐브 시물 비용
-        getTierCost(itemInfo);
-        // 버튼을 눌렀을 경우에만 실행이 되도록
-        //cubeTierUp에서 등급업 진행 후 업데이트된 정보 생성
-        // 업데이트된 정보 생성
-        cubeTierUp(additionalCapValue, addiUpgradeProbabilities);
-        optionList = getOptions(itemInfo);
-        if (optionList) {
-          const first = getRandomOption(optionList.options.firstOption);
-          const second = getRandomOption(optionList.options.secondOption);
-          const third = getRandomOption(optionList.options.thirdOption);
-          setSimulResultOption([first.option, second.option, third.option]);
-        }
+        setSimulResultOption([first.option, second.option, third.option]);
       }
+      //아랫잠인 경우
     } else {
-      return;
+      //큐브 시물 비용
+      getTierCost(itemInfo);
+      // 버튼을 눌렀을 경우에만 실행이 되도록
+      //cubeTierUp에서 등급업 진행 후 업데이트된 정보 생성
+      // 업데이트된 정보 생성
+      cubeTierUp(additionalCapValue, addiUpgradeProbabilities);
+      optionList = getOptions(itemInfo);
+      if (optionList) {
+        const first = getRandomOption(optionList.options.firstOption);
+        const second = getRandomOption(optionList.options.secondOption);
+        const third = getRandomOption(optionList.options.thirdOption);
+        setSimulResultOption([first.option, second.option, third.option]);
+      }
     }
     // 시뮬레이션 작동
   };
@@ -832,7 +821,7 @@ function CubeSimulatorInfo() {
     if (simulCount >= 1) {
       calculateMeso(cubeCost);
     }
-  }, [cubeCost, simulCount]);
+  }, [cubeCost, simulCount, calculateMeso]);
   //옵션 결과 바뀔 때마다 유효 3줄인지 확인하기
   // 유효 3옵션 띄었을 경우 폭죽 터트리기
   useEffect(() => {
@@ -862,7 +851,7 @@ function CubeSimulatorInfo() {
         setIsThreeOption(isAllSame);
       }
     }
-  }, [simulResultOption]);
+  }, [simulResultOption, setIsThreeOption]);
   useEffect(() => {
     if (isThreeOption) {
       alert("3줄 유효띄움!!");

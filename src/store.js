@@ -54,11 +54,19 @@ const useMeso = create((set) => ({
 //시뮬레이션 결과 옵션 3줄 관리 state
 const useSimulResultOption = create((set) => ({
   simulResultOption: [],
+  optionHistory: [],
   setSimulResultOption: (simulResultOption) =>
-    set(() => ({
+    set((state) => ({
       simulResultOption: simulResultOption,
+      optionHistory: [
+        ...state.optionHistory,
+        {
+          result: simulResultOption,
+          timestamp: Date.now(),
+        },
+      ],
     })),
-  initialize: () => set({ simulResultOption: [] }),
+  initialize: () => set({ simulResultOption: [], optionHistory: [] }),
 }));
 
 //등급업한 이력 관리 state

@@ -4,17 +4,17 @@ import {
   useTierUpHistory,
   useSimulResultOption,
 } from "../store";
-import { useState, useEffect } from "react";
+import { useEffect, useRef } from "react";
 function CubeSimulationResult() {
   const Allcount = useAllcount((state) => state.Allcount);
   const meso = useMeso((state) => state.meso);
   const initializeAllcount = useAllcount((state) => state.initializeAllcount);
   const initializeMeso = useMeso((state) => state.initializeMeso);
   const tierUpHistory = useTierUpHistory((state) => state.tierUpHistory);
-  const [optionHistory, setOptionHistory] = useState([]);
   const simulResultOption = useSimulResultOption(
     (state) => state.simulResultOption
   );
+  const optionHistory = useSimulResultOption((state) => state.optionHistory);
   const initializeTierUpHistory = useTierUpHistory(
     (state) => state.initializeTierUpHistory
   );
@@ -34,18 +34,6 @@ function CubeSimulationResult() {
     if (option.includes("공격력")) return "text-rose-300";
     return "text-gray-300";
   };
-  useEffect(() => {
-    if (simulResultOption.length > 0) {
-      // 옵션 히스토리 저장할 때
-      setOptionHistory([
-        ...optionHistory,
-        {
-          result: simulResultOption,
-          timestamp: Date.now(),
-        },
-      ]);
-    }
-  }, [simulResultOption]);
 
   return (
     <div className="flex flex-col gap-9 h-full">
@@ -77,7 +65,13 @@ function CubeSimulationResult() {
               className="font-galmuri items-center flex flex-col gap-10 h-full text-xs"
             >
               <div className="max-h-[500px] overflow-y-auto w-full flex flex-col gap-2 amber-scrollbar">
-                {[...tierUpHistory, ...optionHistory]
+                {[
+                  ...tierUpHistory.map((item) => ({
+                    ...item,
+                    timestamp: item.timestamp - 1,
+                  })),
+                  ...optionHistory,
+                ]
                   .sort((a, b) => b.timestamp - a.timestamp)
                   .map((item, index) => (
                     <div

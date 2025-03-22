@@ -171,14 +171,6 @@ function CubeSimulatorInfo() {
   // Zustand 스토어 사용
   const { itemInfo, upgradeTier, getCurrentItemInfo, setItemInfo } =
     useCubeSimulItemInfoStore();
-  // 등급업 함수
-  // const [itemInfo, setItemInfo] = useState({
-  //   type: "potential",
-  //   parts: "",
-  //   level: "",
-  //   tier: "",
-  //   costRange: "1",
-  // });
   const [koreanTier, setKoreanTier] = useState("-");
   //등급 재설정 비용
   const [cubeCost, setCubeCost] = useState(0);
@@ -205,12 +197,7 @@ function CubeSimulatorInfo() {
   // 시뮬레이션 총 횟수 (전연벽수로 관리)
   const increaseAllcount = useAllcount((state) => state.increaseAllcount);
   //시뮬레이션 결과 옵션 3줄 (전역변수로 관리)
-  const simulResultOption = useSimulResultOption(
-    (state) => state.simulResultOption
-  );
-  const setSimulResultOption = useSimulResultOption(
-    (state) => state.setSimulResultOption
-  );
+  const { simulResultOption, setSimulResultOption } = useSimulResultOption();
   //등급업한 이력 관리 state
   const addTierUpHistory = useTierUpHistory((state) => state.addTierUpHistory);
   //잠재 능력 재설정 버튼 클릭 시 시뮬레이션 작동

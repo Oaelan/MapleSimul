@@ -1,0 +1,164 @@
+.container {
+  display: flex;
+  flex-wrap: wrap; /* 창 크기에 따라 자동 줄바꿈 */
+  justify-content: center; /* 가운데 정렬 */
+  align-items: center;
+  width: 90%;
+  max-width: 800px;
+  min-width: 300px;
+  text-align: center;
+  margin: 0 auto;
+  padding: 10px;
+  gap: 10px; /* 아이템 간격 조절 */
+}
+
+.item {
+  flex: 1 1 calc(33.33% - 10px); /* 기본적으로 3열 */
+  min-width: 100px; /* 너무 작아지지 않도록 */
+  background-color: lightgray;
+  padding: 20px;
+  text-align: center;
+}
+
+.top-text {
+  margin-bottom: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+.equipment-enchant {
+  width: 400px;
+  background-color: #2f2f2f;
+  color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+}
+
+/* 탭 스타일 */
+.tabs {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 10px;
+}
+
+.tab {
+  flex: 1;
+  background-color: #3a3a3a;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  border: none;
+  border-radius: 5px 5px 0 0;
+  cursor: pointer;
+}
+
+.tab.active {
+  background-color: #ffd700;
+  color: black;
+  font-weight: bold;
+}
+
+/* 아이템 정보 */
+.item-info {
+  background-color: #3a3a3a;
+  padding: 10px;
+  border-radius: 10px;
+  width: 90%;
+  margin-bottom: 10px;
+
+  display: flex;
+  flex-direction: column; /* 요소들을 세로 정렬 */
+  align-items: center; /* 가로 중앙 정렬 */
+}
+
+.item-icon {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 10px; /* 아이콘 아래 여백 추가 */
+}
+
+.success-rate,
+.fail-rate {
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.success-rate {
+  color: #00ff00;
+}
+
+.fail-rate {
+  color: #ff0000;
+}
+
+/* 옵션 체크박스 */
+.options {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  margin: 10px 0;
+}
+
+.checkbox-option {
+  display: flex;
+  align-items: center;
+}
+
+/* 버튼 스타일 */
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+}
+
+.enhance-btn {
+  flex: 1;
+  padding: 10px;
+  margin: 0 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #00ff00;
+  color: black;
+  font-weight: bold;
+}
+
+.enhance-btn2 {
+  flex: 1;
+  padding: 10px;
+  margin: 0 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: red;
+  color: black;
+  font-weight: bold;
+}
+
+.hidden {
+  display: none;
+}
+
+.arrow {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0 10px;
+  color: white;
+}
+
+.confirm-btn {
+  background-color: #6ccf00;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.confirm-btn:hover {
+  background-color: #5bb000;
+}

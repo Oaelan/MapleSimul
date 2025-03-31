@@ -128,7 +128,7 @@ function StarForceSimulator({ setResultWindow }) {
       console.log(`${starForceTier}성 ▶ ${starForceTier + 1}성 강화 성공!`);
       setResultWindow((prev) => [...prev, successMessage]);
       setStarForceTier(starForceTier + 1);
-      if (starForceTier >= 15) {
+      if (starForceTier >= 20) {
         handleConfetti();
       }
     } else if (rand <= successRate[starForceTier] + failRate[starForceTier]) {

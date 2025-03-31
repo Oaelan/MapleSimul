@@ -71,12 +71,17 @@ function App() {
   }, [isThreeOption]);
   return (
     <div className="items-center h-full  w-full gap-3 sm:gap-10 flex flex-col">
-      <h1 className="p-10 text-2xl font-bold w-full text-center bg-amber-500">
-        메이플 큐브/스타포스 시뮬레이터
+      <h1
+        className="text-yellow-300 font-Galmuri11
+       p-5 sm:p-10 pb-3 text-[20px] sm:text-4xl
+       drop-shadow-[0_2px_4px_rgba(255,170,0,0.4)]
+       font-bold w-full text-center"
+      >
+        메이플 큐브 / 스타포스 시뮬레이터
       </h1>
       {/* 큐브 시뮬레이터 버튼 */}
       <SimulTypeButton setSelectedSimulator={setSelectedSimulator} />
-      <div className="flex flex-col items-center w-full bg-amber-200 p-3 sm:px-30 py-10">
+      <div className="flex flex-col items-center w-full p-3 sm:px-30 py-10">
         {selectedSimulator === "cube" ? <CubeSimulator /> : <StarForce />}
       </div>
     </div>

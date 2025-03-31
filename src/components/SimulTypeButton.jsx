@@ -11,7 +11,10 @@ function SimulTypeButton({ setSelectedSimulator }) {
   };
 
   return (
-    <div className="flex justify-center gap-5 w-full">
+    <div
+      className="flex justify-center gap-5 w-full
+    font-Galmuri11"
+    >
       <button
         className={`p-5 w-[150px] sm:w-[200px] btn btn-info btn-outline ${
           isActive === "cube" ? "btn-active" : ""

@@ -66,7 +66,8 @@ const useSimulResultOption = create((set) => ({
         },
       ],
     })),
-  initialize: () => set({ simulResultOption: [], optionHistory: [] }),
+  initializeSimulResult: () => set({ simulResultOption: [] }),
+  initializeOptionHistory: () => set({ optionHistory: [] }),
 }));
 
 //등급업한 이력 관리 state

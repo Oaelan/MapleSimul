@@ -11,12 +11,13 @@ function CubeSimulationResult() {
   const initializeAllcount = useAllcount((state) => state.initializeAllcount);
   const initializeMeso = useMeso((state) => state.initializeMeso);
   const tierUpHistory = useTierUpHistory((state) => state.tierUpHistory);
-  const simulResultOption = useSimulResultOption(
-    (state) => state.simulResultOption
-  );
   const optionHistory = useSimulResultOption((state) => state.optionHistory);
   const initializeTierUpHistory = useTierUpHistory(
     (state) => state.initializeTierUpHistory
+  );
+
+  const initializeOptionHistory = useSimulResultOption(
+    (state) => state.initializeOptionHistory
   );
   //옵션 히스토리 색깔 변경
   const getOptions = (option) => {
@@ -64,7 +65,7 @@ function CubeSimulationResult() {
               id="cube-after-info"
               className="font-galmuri items-center flex flex-col gap-10 h-full text-xs"
             >
-              <div className="max-h-[500px] overflow-y-auto w-full flex flex-col gap-2 amber-scrollbar">
+              <div className="max-h-[200px] min-h-[200px] sm:max-h-[500px] sm:min-h-[500px] overflow-y-auto w-full flex flex-col gap-2 amber-scrollbar">
                 {[
                   ...tierUpHistory.map((item) => ({
                     ...item,
@@ -108,8 +109,7 @@ function CubeSimulationResult() {
                   //등급업 히스토리 초기화
                   initializeTierUpHistory();
                   //옵션 히스토리 초기화
-                  setOptionHistory([]);
-                  //천장 카운트 초기화
+                  initializeOptionHistory();
                 }}
               >
                 초기화

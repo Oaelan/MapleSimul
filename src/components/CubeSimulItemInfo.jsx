@@ -45,7 +45,9 @@ function CubeSimulItemInfo({
     { onepiece: ["100", "110", "111_119", "120_200"] },
   ];
   // 초기화 버튼 누를시에 옵션 값들도 초기화
-  const initialize = useSimulResultOption((state) => state.initialize);
+  const initializeSimulResult = useSimulResultOption(
+    (state) => state.initializeSimulResult
+  );
   return (
     <div>
       {/* 부위, 레벨, 큐브 등급 */}
@@ -132,7 +134,7 @@ function CubeSimulItemInfo({
               setTierUpCount(0);
               setSimulCount(0);
               setKoreanTier("-");
-              initialize();
+              initializeSimulResult();
               setCubeCost(0);
               setCapValue(0);
             }}

@@ -835,7 +835,30 @@ function CubeSimulatorInfo() {
       if (check1 && check2 && check3) {
         const isAllSame =
           firstOption === secondOption && secondOption === thirdOption;
-        setIsThreeOption(isAllSame);
+        // 스탯 2줄 + 올스탯 1줄 또는 올스탯 2줄 + 스탯 1줄 체크
+        const isStatAndAllStat =
+          // 첫째 == 둘째 스탯, 셋째 올스탯
+          (firstOption === secondOption &&
+            (firstOption.includes("STR") ||
+              firstOption.includes("DEX") ||
+              firstOption.includes("INT") ||
+              firstOption.includes("LUK")) &&
+            thirdOption.includes("올스탯")) ||
+          // 둘째 == 셋째 스탯, 첫째 올스탯
+          (secondOption === thirdOption &&
+            (secondOption.includes("STR") ||
+              secondOption.includes("DEX") ||
+              secondOption.includes("INT") ||
+              secondOption.includes("LUK")) &&
+            firstOption.includes("올스탯")) ||
+          // 첫째 == 셋째 스탯, 둘째 올스탯
+          (firstOption === thirdOption &&
+            (firstOption.includes("STR") ||
+              firstOption.includes("DEX") ||
+              firstOption.includes("INT") ||
+              firstOption.includes("LUK")) &&
+            secondOption.includes("올스탯"));
+        setIsThreeOption(isAllSame || isStatAndAllStat);
       }
     }
   }, [simulResultOption, setIsThreeOption]);

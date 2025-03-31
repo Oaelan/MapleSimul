@@ -36,11 +36,6 @@
 .font-galmuri {
   font-family: "Galmuri14", sans-serif;
 }
-body {
-  padding: 0 100px 0 100px;
-  background-color: #202b3e;
-  flex-direction: column;
-}
 #item-imageDv {
   position: relative;
   display: flex;
@@ -84,4 +79,7 @@ body {
   font-family: "Galmuri14", sans-serif;
   font-size: 10px;
   text-align: center;
+}
+body {
+  background-color: #202b3e;
 }

@@ -70,19 +70,15 @@ function App() {
     }
   }, [isThreeOption]);
   return (
-    <div className="items-center h-full  w-full gap-10 flex flex-col">
-      <button className="bg-amber-400" onClick={() => setIsThreeOption(true)}>
-        폭죽 터트리기 {isThreeOption ? "true" : "false"}
-      </button>
+    <div className="items-center h-full  w-full gap-3 sm:gap-10 flex flex-col">
       <h1 className="p-10 text-2xl font-bold w-full text-center bg-amber-500">
         메이플 큐브/스타포스 시뮬레이터
       </h1>
       {/* 큐브 시뮬레이터 버튼 */}
       <SimulTypeButton setSelectedSimulator={setSelectedSimulator} />
-      <div className="flex flex-col items-center w-full bg-amber-200 p-10">
+      <div className="flex flex-col items-center w-full bg-amber-200 p-3 sm:px-30 py-10">
         {selectedSimulator === "cube" ? <CubeSimulator /> : <StarForce />}
       </div>
-      <Footer />
     </div>
   );
 }

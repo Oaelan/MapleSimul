@@ -33,6 +33,10 @@ function CubeSimulationResult() {
     if (option.includes("크리티컬 확률")) return "text-orange-500";
     if (option.includes("마력")) return "text-sky-300";
     if (option.includes("공격력")) return "text-rose-300";
+    if (option.includes("크리티컬 데미지")) return "text-amber-300";
+    if (option.includes("모든 스킬의 재사용 대기시간")) return "text-cyan-300";
+    if (option.includes("아이템 드롭률")) return "text-amber-500";
+    if (option.includes("메소 획득량")) return "text-amber-400";
     return "text-gray-300";
   };
 
@@ -65,7 +69,7 @@ function CubeSimulationResult() {
               id="cube-after-info"
               className="font-galmuri items-center flex flex-col gap-10 h-full text-xs"
             >
-              <div className="max-h-[200px] min-h-[200px] sm:max-h-[500px] sm:min-h-[500px] overflow-y-auto w-full flex flex-col gap-2 amber-scrollbar">
+              <div className="max-h-[250px] min-h-[250px] sm:max-h-[550px] sm:min-h-[550px] overflow-y-auto w-full flex flex-col gap-2 amber-scrollbar">
                 {[
                   ...tierUpHistory.map((item) => ({
                     ...item,

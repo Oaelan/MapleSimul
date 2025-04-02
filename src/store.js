@@ -8,6 +8,7 @@ const useCubeSimulItemInfoStore = create((set, get) => ({
     level: "",
     tier: "",
     costRange: "1",
+    mainStat: "",
   },
   //CubeSimulItemInfo 컴포넌트에서 아이템 정보 선택시에 호출되는 함수
   setItemInfo: (name, value) =>
@@ -27,6 +28,7 @@ const useCubeSimulItemInfoStore = create((set, get) => ({
         level: "",
         tier: "",
         costRange: "1",
+        mainStat: "",
       },
     }),
   // 현재 아이템 정보 가져오기
@@ -45,7 +47,7 @@ const useAllcount = create((set) => ({
 const useMeso = create((set) => ({
   meso: 0,
   calculateMeso: (cubeCost) => {
-    console.log("cubeCost", cubeCost);
+    //console.log("cubeCost", cubeCost);
     set((state) => ({ meso: state.meso + cubeCost }));
   },
   initializeMeso: () => set({ meso: 0 }),

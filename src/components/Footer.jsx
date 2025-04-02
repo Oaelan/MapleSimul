@@ -15,7 +15,7 @@ function Footer() {
           문의나 또는 버그 발견시 아래 메일로 연락주세요
         </p>
         <p className="flex gap-2 text-violet-900">
-          <a href="mailto:oaelan@gmail.com">oaelan@gmail.com</a> /
+          <a href="mailto:coreator0201@naver.com">coreator0201@naver.com</a> /
           <a href="mailto:kaka2172@naver.com">kaka2172@naver.com</a>
         </p>
       </aside>

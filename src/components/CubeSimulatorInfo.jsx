@@ -210,7 +210,8 @@ function CubeSimulatorInfo() {
         itemInfo.parts &&
         itemInfo.level &&
         itemInfo.tier &&
-        itemInfo.costRange
+        itemInfo.costRange &&
+        itemInfo.mainStat
       ) {
         //등급업하는 카운트 증가(천장값 도달시 등급업)
         tierUpCount.current = tierUpCount.current + 1;
@@ -269,7 +270,7 @@ function CubeSimulatorInfo() {
       };
       // 250 이상 300 이하 250 ~300 구간
       if (itemInfo.costRange == 250) {
-        cost = additionalCostTable[itemInfo.tier][300];
+        cost = additionalCostTable[itemInfo.tier][250];
       }
       // 200 이상 249 이하  200~249 구간
       if (itemInfo.costRange == 200) {
@@ -480,6 +481,13 @@ function CubeSimulatorInfo() {
       addiSubWeaponForceShieldAndSoulRingLv110,
     };
     let equiment = "";
+    // 부위 선택 후 다른 부위로 변경시에  Iteminfo의 level이
+    // 이전에 선택한 렙제로 남아있음
+    // 만약 부위 변경시 해당 아이템의 렙제가 이전 장비의 렙제를
+    // 포함하지 않을시에 에러가남 예를들어 상의 -> 렙제 201~250 선택후
+    // 한벌옷으로 부위 변경시 페이지에서는 렙제 셀렉트가 100으로 선택되나
+    // 실제 itemInfo의 level은 201~250 으로 남아있음
+    // 이런 경우 옵션 랜덤 뽑기에서 에러가 나기 때문에 에러 처리 필요
     const { tier, parts, level, type } = currentItemInfo;
     //console.log("tier", tier);
     const levelRange = {
@@ -662,6 +670,8 @@ function CubeSimulatorInfo() {
           const weaponKey = `${
             type === "additional" ? "addiOnepiece" : "onepiece"
           }Lv${range.Lv}`;
+          console.log("weaponKey", weaponKey);
+          console.log("tier", tier);
           equiment = AllEquimentOptions[weaponKey];
           equiment = equiment[tier];
         }
@@ -752,10 +762,9 @@ function CubeSimulatorInfo() {
       setKoreanTier("레전드리");
     }
   };
-  // 옵션 수치가 % 이면 true!!
+  // 옵션, 옵션값으로 나눠지는 형태일 경우 true 반환
   const checkVaildOption = (option, value) => {
-    //옵션 수치가 % 단위이면 일단 option을 리턴하라
-    if (value.includes("%")) return true;
+    if (option && value) return true;
     return false;
   };
   //잠재 능력 재설정 버튼 클릭 시 simulCount 증가에 따른 시뮬 실행
@@ -775,8 +784,15 @@ function CubeSimulatorInfo() {
         const first = getRandomOption(optionList.options.firstOption);
         const second = getRandomOption(optionList.options.secondOption);
         const third = getRandomOption(optionList.options.thirdOption);
-
-        setSimulResultOption([first.option, second.option, third.option]);
+        // 모든 스킬의 재사용 대기시간 옵션이 뽑힌 경우
+        const options = [first.option, second.option, third.option].map(
+          (option) => {
+            return option.includes("모든 스킬의 재사용 대기시간")
+              ? option.split("(")[0].trim()
+              : option; // 옵션명 줄이기
+          }
+        );
+        setSimulResultOption(options);
       }
       //아랫잠인 경우
     } else {
@@ -791,12 +807,19 @@ function CubeSimulatorInfo() {
         const first = getRandomOption(optionList.options.firstOption);
         const second = getRandomOption(optionList.options.secondOption);
         const third = getRandomOption(optionList.options.thirdOption);
-        setSimulResultOption([first.option, second.option, third.option]);
+        // 모든 스킬의 재사용 대기시간 옵션이 뽑힌 경우
+        const options = [first.option, second.option, third.option].map(
+          (option) => {
+            return option.includes("모든 스킬의 재사용 대기시간")
+              ? option.split("(")[0].trim()
+              : option; // 옵션명 줄이기
+          }
+        );
+        setSimulResultOption(options);
       }
     }
     // 시뮬레이션 작동
   };
-
   // 시뮬 아이템 등급 한글 변환 후 표시 (등급업 후에도 표시되게)
   useEffect(() => {
     transformTier(itemInfo.tier);
@@ -812,7 +835,9 @@ function CubeSimulatorInfo() {
   //옵션 결과 바뀔 때마다 유효 3줄인지 확인하기
   // 유효 3옵션 띄었을 경우 폭죽 터트리기
   useEffect(() => {
+    //console.log("itemInfo", itemInfo);
     if (simulResultOption.length === 3) {
+      //console.log("itemInfo", itemInfo);
       // 시뮬 결과 옵션 3줄
       const [first, second, third] = simulResultOption;
       // 각 옵션을 ':' 기준으로 분리
@@ -826,39 +851,375 @@ function CubeSimulatorInfo() {
       const [thirdOption, thirdValue] = third.includes(" : ")
         ? third.split(" : ")
         : [third, ""];
-
       const check1 = checkVaildOption(firstOption, firstValue);
       const check2 = checkVaildOption(secondOption, secondValue);
       const check3 = checkVaildOption(thirdOption, thirdValue);
-      //3줄 모두 % 수치인 경우!!
-      //나중에 스탯 2줄 올스탯 1줄 또는 올스텟2줄 스탯 1줄 이런식으로도 유효 3옵션으로 처리하는거 추가하기
+
+      // 유효 옵션이 % 수치인 경우 true 반환 하나라도 포함안될 경우 false 반환
+      // 유효 옵션 수치가 % 인 경우에만 사용
+      const isPercent =
+        firstValue.includes("%") &&
+        secondValue.includes("%") &&
+        thirdValue.includes("%");
+      // 메인스탯 값 가져오기
+      let mainStatValue;
+      if (itemInfo.mainStat === "INT") {
+        mainStatValue = "INT";
+      } else if (itemInfo.mainStat === "STR") {
+        mainStatValue = "STR";
+      } else if (itemInfo.mainStat === "HP") {
+        mainStatValue = "LUK";
+      } else if (itemInfo.mainStat === "DEX") {
+        mainStatValue = "DEX";
+      } else if (itemInfo.mainStat === "LUK") {
+        mainStatValue = "HP";
+      } else if (itemInfo.mainStat === "ALL") {
+        mainStatValue = "올스탯";
+      }
+      //옵션명, 옵션값으로 나눠지는 경우 유효 3옵션 체크
       if (check1 && check2 && check3) {
-        const isAllSame =
-          firstOption === secondOption && secondOption === thirdOption;
-        // 스탯 2줄 + 올스탯 1줄 또는 올스탯 2줄 + 스탯 1줄 체크
-        const isStatAndAllStat =
-          // 첫째 == 둘째 스탯, 셋째 올스탯
-          (firstOption === secondOption &&
-            (firstOption.includes("STR") ||
-              firstOption.includes("DEX") ||
-              firstOption.includes("INT") ||
-              firstOption.includes("LUK")) &&
-            thirdOption.includes("올스탯")) ||
-          // 둘째 == 셋째 스탯, 첫째 올스탯
-          (secondOption === thirdOption &&
-            (secondOption.includes("STR") ||
-              secondOption.includes("DEX") ||
-              secondOption.includes("INT") ||
-              secondOption.includes("LUK")) &&
-            firstOption.includes("올스탯")) ||
-          // 첫째 == 셋째 스탯, 둘째 올스탯
-          (firstOption === thirdOption &&
-            (firstOption.includes("STR") ||
-              firstOption.includes("DEX") ||
-              firstOption.includes("INT") ||
-              firstOption.includes("LUK")) &&
-            secondOption.includes("올스탯"));
-        setIsThreeOption(isAllSame || isStatAndAllStat);
+        //잠재인 경우
+        if (itemInfo.type === "potential") {
+          //잠재에서 무기부위 / 보조무기 3유효 검증
+          if (
+            itemInfo.parts === "weapon" ||
+            itemInfo.parts === "subWeapon" ||
+            itemInfo.parts === "subWeaponForceShieldAndSoulRing" ||
+            itemInfo.parts === "shield"
+          ) {
+            const potentialVaildWeaponOption = [
+              "보스 몬스터 공격 시 데미지",
+              "몬스터 방어율 무시",
+              // 주스탯에 따라 유효옵션 변경
+              itemInfo.mainStat === "INT" ? "마력" : "공격력",
+            ];
+            // 유효 옵션이 포함될 경우 true 하나라도 포함안될 경우 false 반환
+            const isVaild =
+              potentialVaildWeaponOption.includes(firstOption) &&
+              potentialVaildWeaponOption.includes(secondOption) &&
+              potentialVaildWeaponOption.includes(thirdOption);
+            //유효옵션들 + 유효 옵션 수치인 경우
+            if (isVaild && isPercent) {
+              setIsThreeOption(true);
+            }
+          }
+          // 잠재에서 엠블렘 3유효 검증
+          else if (itemInfo.parts === "emblem") {
+            const potentialVaildEmblemOption =
+              itemInfo.mainStat === "INT"
+                ? ["마력", "몬스터 방어율 무시"]
+                : ["공격력", "몬스터 방어율 무시"];
+            console.log(potentialVaildEmblemOption);
+            const isVaild =
+              potentialVaildEmblemOption.includes(firstOption) &&
+              potentialVaildEmblemOption.includes(secondOption) &&
+              potentialVaildEmblemOption.includes(thirdOption);
+            console.log(isVaild, isPercent);
+            if (isVaild && isPercent) {
+              console.log(firstOption, secondOption, thirdOption);
+              setIsThreeOption(true);
+            }
+          }
+          // 잠재에서 모자 3유효 검증
+          else if (itemInfo.parts === "hat") {
+            const potentialVaildHatOption = [
+              "모든 스킬의 재사용 대기시간",
+              "올스탯",
+              mainStatValue,
+            ];
+            //유효옵션에 해당하면 true
+            const isVaild =
+              potentialVaildHatOption.includes(firstOption) &&
+              potentialVaildHatOption.includes(secondOption) &&
+              potentialVaildHatOption.includes(thirdOption);
+            // 유효 옵션에 해당하는 경우 유효 수치 검증
+            if (isVaild) {
+              const isValidStats =
+                firstOption &&
+                (firstValue.endsWith("%") ||
+                  firstOption === "모든 스킬의 재사용 대기시간") &&
+                secondOption &&
+                (secondValue.endsWith("%") ||
+                  secondOption === "모든 스킬의 재사용 대기시간") &&
+                thirdOption &&
+                (thirdValue.endsWith("%") ||
+                  thirdOption === "모든 스킬의 재사용 대기시간");
+              if (isValidStats) {
+                setIsThreeOption(true);
+              }
+            }
+          }
+          // 잠재에서 장갑 3유효 검증
+          else if (itemInfo.parts === "gloves") {
+            const potentialVaildGlovesOption = [
+              "크리티컬 데미지",
+              "올스탯",
+              mainStatValue,
+            ];
+            //유효옵션에 해당하면 true
+            const isVaild =
+              potentialVaildGlovesOption.includes(firstOption) &&
+              potentialVaildGlovesOption.includes(secondOption) &&
+              potentialVaildGlovesOption.includes(thirdOption);
+            // 유효 옵션에 해당하는 경우 유효 수치 검증
+            if (isVaild) {
+              const isValidStats =
+                firstOption &&
+                (firstValue.endsWith("%") ||
+                  firstOption === "크리티컬 데미지") &&
+                secondOption &&
+                (secondValue.endsWith("%") ||
+                  secondOption === "크리티컬 데미지") &&
+                thirdOption &&
+                (thirdValue.endsWith("%") || thirdOption === "크리티컬 데미지");
+              if (isValidStats) {
+                setIsThreeOption(true);
+              }
+            }
+          }
+          // 눈장식, 얼굴장식,반지,펜던트,귀고리 3유효 검증
+          // 주스탯 3줄 또는 메획 2줄 아드는 2줄이여도 유효
+          else if (
+            itemInfo.parts === "eyesAcce" ||
+            itemInfo.parts === "faceAcce" ||
+            itemInfo.parts === "ring" ||
+            itemInfo.parts === "pendant" ||
+            itemInfo.parts === "earring"
+          ) {
+            // 잠재에서 장신구 3유효 검증 옵션
+            const potentialVaildAccessoryOption = [
+              "아이템 드롭률",
+              "메소 획득량",
+              "올스탯",
+              mainStatValue,
+            ];
+            //유효 옵션 포함 했는지 여부
+            const isVaild =
+              potentialVaildAccessoryOption.includes(firstOption) &&
+              potentialVaildAccessoryOption.includes(secondOption) &&
+              potentialVaildAccessoryOption.includes(thirdOption);
+
+            //유효 수치인 경우 유효 검증
+            if (isPercent) {
+              // 아드 옵션이 2줄 이상인 경우 유효
+              const adOptions = [firstOption, secondOption, thirdOption].filter(
+                (option) => option.includes("아이템 드롭률")
+              );
+
+              if (adOptions.length >= 2) {
+                setIsThreeOption(true);
+              }
+              // 메획 옵션이 2줄 이상인 경우 유효
+              const mesoOptions = [
+                firstOption,
+                secondOption,
+                thirdOption,
+              ].filter((option) => option.includes("메소 획득량"));
+              if (mesoOptions.length >= 2) {
+                setIsThreeOption(true);
+              }
+              // 메인스탯 옵션이 3줄 이상인 경우 유효
+              if (isVaild) {
+                console.log(firstOption, secondOption, thirdOption);
+                const mainStatOption = [
+                  firstOption,
+                  secondOption,
+                  thirdOption,
+                ].filter(
+                  (option) =>
+                    // mainStatValue와 일치하거나 "올스탯"인 경우
+                    option === mainStatValue || option === "올스탯"
+                );
+                if (mainStatOption.length >= 3) {
+                  setIsThreeOption(true);
+                }
+              }
+            }
+          }
+          //나머지 부위들 3유효 검증
+          else {
+            const potentialVaildOtherOption = ["올스탯", mainStatValue];
+            const isVaild =
+              potentialVaildOtherOption.includes(firstOption) &&
+              potentialVaildOtherOption.includes(secondOption) &&
+              potentialVaildOtherOption.includes(thirdOption);
+            if (isVaild && isPercent) {
+              setIsThreeOption(true);
+            }
+          }
+        }
+        //에디인 경우
+        if (itemInfo.type === "additional") {
+          //에디에서 무기부위 / 보조무기 3유효 검증
+          if (
+            itemInfo.parts === "weapon" ||
+            itemInfo.parts === "subWeapon" ||
+            itemInfo.parts === "subWeaponForceShieldAndSoulRing" ||
+            itemInfo.parts === "shield"
+          ) {
+            const additionalVaildWeaponOption = [
+              "보스 몬스터 공격 시 데미지",
+              // 주스탯에 따라 유효옵션 변경
+              itemInfo.mainStat === "INT" ? "마력" : "공격력",
+            ];
+            // 유효 옵션이 포함될 경우 true 하나라도 포함안될 경우 false 반환
+            const isVaild =
+              additionalVaildWeaponOption.includes(firstOption) &&
+              additionalVaildWeaponOption.includes(secondOption) &&
+              additionalVaildWeaponOption.includes(thirdOption);
+            //유효옵션들 + 유효 옵션 수치인 경우
+            if (isVaild && isPercent) {
+              setIsThreeOption(true);
+            }
+          }
+          // 에디에서 엠블렘 3유효 검증
+          else if (itemInfo.parts === "emblem") {
+            const additionalVaildEmblemOption = [
+              // 주스탯에 따라 유효옵션 변경
+              itemInfo.mainStat === "INT" ? "마력" : "공격력",
+            ];
+            const isVaild =
+              additionalVaildEmblemOption.includes(firstOption) &&
+              additionalVaildEmblemOption.includes(secondOption) &&
+              additionalVaildEmblemOption.includes(thirdOption);
+            if (isVaild && isPercent) {
+              setIsThreeOption(true);
+            }
+          }
+          // 에디에서 모자 3유효 검증
+          else if (itemInfo.parts === "hat") {
+            const potentialVaildHatOption = [
+              "모든 스킬의 재사용 대기시간",
+              "올스탯",
+              itemInfo.mainStat === "INT" ? "마력" : "공격력",
+              mainStatValue,
+              // 주스탯이 올스탯인 경우 캐릭터 기준 9레벨 옵션 유효 아니니까 비워두기
+              itemInfo.mainStat === "ALL"
+                ? ""
+                : "캐릭터 기준 9레벨 당 " + itemInfo.mainStat,
+              itemInfo.mainStat === "ALL"
+                ? ""
+                : "캐릭터 기준 9레벨 당 " + itemInfo.mainStat,
+            ];
+            //유효옵션에 해당하면 true
+            const isVaild =
+              potentialVaildHatOption.includes(firstOption) &&
+              potentialVaildHatOption.includes(secondOption) &&
+              potentialVaildHatOption.includes(thirdOption);
+            // 유효 옵션에 해당하는 경우 유효 수치 검증
+            if (isVaild) {
+              const isValidStats =
+                firstOption &&
+                (firstValue.endsWith("%") ||
+                  firstOption === "모든 스킬의 재사용 대기시간" ||
+                  firstOption.includes("캐릭터 기준 9레벨 당") ||
+                  firstOption === "마력" ||
+                  firstOption === "공격력") &&
+                secondOption &&
+                (secondValue.endsWith("%") ||
+                  secondOption === "모든 스킬의 재사용 대기시간" ||
+                  secondOption.includes("캐릭터 기준 9레벨 당") ||
+                  secondOption === "마력" ||
+                  secondOption === "공격력") &&
+                thirdOption &&
+                (thirdValue.endsWith("%") ||
+                  thirdOption === "모든 스킬의 재사용 대기시간" ||
+                  thirdOption.includes("캐릭터 기준 9레벨 당") ||
+                  thirdOption === "마력" ||
+                  thirdOption === "공격력");
+              if (isValidStats) {
+                setIsThreeOption(true);
+              }
+            }
+          }
+          // 에디에서 장갑 3유효 검증
+          else if (itemInfo.parts === "gloves") {
+            const additionalVaildGlovesOption = [
+              "크리티컬 데미지",
+              "올스탯",
+              itemInfo.mainStat === "INT" ? "마력" : "공격력",
+              mainStatValue,
+              // 주스탯이 올스탯인 경우 캐릭터 기준 9레벨 옵션 유효 아니니까 비워두기
+              itemInfo.mainStat === "ALL"
+                ? ""
+                : "캐릭터 기준 9레벨 당 " + itemInfo.mainStat,
+              itemInfo.mainStat === "ALL"
+                ? ""
+                : "캐릭터 기준 9레벨 당 " + itemInfo.mainStat,
+            ];
+            //유효옵션에 해당하면 true
+            const isVaild =
+              additionalVaildGlovesOption.includes(firstOption) &&
+              additionalVaildGlovesOption.includes(secondOption) &&
+              additionalVaildGlovesOption.includes(thirdOption);
+            // 유효 옵션에 해당하는 경우 유효 수치 검증
+            if (isVaild) {
+              const isValidStats =
+                firstOption &&
+                (firstValue.endsWith("%") ||
+                  firstOption === "모든 스킬의 재사용 대기시간" ||
+                  firstOption.includes("캐릭터 기준 9레벨 당") ||
+                  firstOption === "마력" ||
+                  firstOption === "공격력") &&
+                secondOption &&
+                (secondValue.endsWith("%") ||
+                  secondOption === "모든 스킬의 재사용 대기시간" ||
+                  secondOption.includes("캐릭터 기준 9레벨 당") ||
+                  secondOption === "마력" ||
+                  secondOption === "공격력") &&
+                thirdOption &&
+                (thirdValue.endsWith("%") ||
+                  thirdOption === "모든 스킬의 재사용 대기시간" ||
+                  thirdOption.includes("캐릭터 기준 9레벨 당") ||
+                  thirdOption === "마력" ||
+                  thirdOption === "공격력");
+              if (isValidStats) {
+                setIsThreeOption(true);
+              }
+            }
+          }
+          //나머지 부위들 3유효 검증
+          else {
+            const additionalVaildOtherOption = [
+              "올스탯",
+              mainStatValue,
+              itemInfo.mainStat === "INT" ? "마력" : "공격력",
+              // 주스탯이 올스탯인 경우 캐릭터 기준 9레벨 옵션 유효 아니니까 비워두기
+              itemInfo.mainStat === "ALL"
+                ? ""
+                : "캐릭터 기준 9레벨 당 " + itemInfo.mainStat,
+              itemInfo.mainStat === "ALL"
+                ? ""
+                : "캐릭터 기준 9레벨 당 " + itemInfo.mainStat,
+            ];
+            //유효 옵션에 해당하는 경우
+            const isVaild =
+              additionalVaildOtherOption.includes(firstOption) &&
+              additionalVaildOtherOption.includes(secondOption) &&
+              additionalVaildOtherOption.includes(thirdOption);
+            if (isVaild) {
+              const isValidStats =
+                firstOption &&
+                (firstValue.endsWith("%") ||
+                  firstOption.includes("캐릭터 기준 9레벨 당") ||
+                  firstOption.includes("마력") ||
+                  firstOption.includes("공격력")) &&
+                secondOption &&
+                (secondValue.endsWith("%") ||
+                  secondOption.includes("캐릭터 기준 9레벨 당") ||
+                  secondOption.includes("마력") ||
+                  secondOption.includes("공격력")) &&
+                thirdOption &&
+                (thirdValue.endsWith("%") ||
+                  thirdOption.includes("캐릭터 기준 9레벨 당") ||
+                  thirdOption.includes("마력") ||
+                  thirdOption.includes("공격력"));
+              if (isValidStats) {
+                setIsThreeOption(true);
+              }
+            }
+          }
+        }
       }
     }
   }, [simulResultOption, setIsThreeOption]);

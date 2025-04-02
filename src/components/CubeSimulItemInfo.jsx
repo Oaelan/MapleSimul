@@ -126,23 +126,41 @@ function CubeSimulItemInfo({
             <option value="unique">유니크</option>
             <option value="legendary">레전드리</option>
           </select>
-          {/* 초기화 버튼 */}
-          <button
-            onClick={() => {
-              // 아이템 정보 초기화
-              initializeItemInfo();
-              setTierUpCount(0);
-              setSimulCount(0);
-              setKoreanTier("-");
-              initializeSimulResult();
-              setCubeCost(0);
-              setCapValue(0);
-            }}
-            className="h-fit btn btn-sm btn-soft btn-error"
+          {/* 직업 선택 버튼 */}
+          <select
+            disabled={simulCount > 0}
+            value={itemInfo.mainStat}
+            name="mainStat"
+            onChange={handleChangeSelect}
+            className="text-center w-full h-5 select-sm select select-ghost"
           >
-            초기화
-          </button>
+            <option disabled={true} value="">
+              주스탯
+            </option>
+            <option value="STR">STR</option>
+            <option value="INT">INT</option>
+            <option value="LUK">LUK</option>
+            <option value="DEX">DEX</option>
+            <option value="HP">HP</option>
+            <option value="ALL">ALL</option>
+          </select>
         </div>
+        {/* 초기화 버튼 */}
+        <button
+          onClick={() => {
+            // 아이템 정보 초기화
+            initializeItemInfo();
+            setTierUpCount(0);
+            setSimulCount(0);
+            setKoreanTier("-");
+            initializeSimulResult();
+            setCubeCost(0);
+            setCapValue(0);
+          }}
+          className="h-fit w-full btn btn-sm btn-soft btn-error"
+        >
+          초기화
+        </button>
       </div>
       {/*옵션 타입*/}
       <div id="cubeSimulEquiPartsDiv">

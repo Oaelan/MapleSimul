@@ -120,30 +120,50 @@ function StarForceSimulator({ setResultWindow }) {
     const breakMessage = `장비가 파괴되었습니다`;
 
     setUseMeso((prevUseMeso) => prevUseMeso + needMeso);
-    //랜덤 값과 성공,실패,파괴 확률 비교
-    //이때 성공 확률 보다 작으면 성공, 성공 확률보다 크고 성공확률 + 실패확률 보다 작으면 실패, 성공확률 + 실패확률 보다 크고 성공 +실패 + 파괴 확률 보다 작으면 파괴
-    //성공
+
+    // 성공
     if (rand <= successRate[starForceTier]) {
       console.log(`${starForceTier}성 ▶ ${starForceTier + 1}성 강화 성공!`);
       setResultWindow((prev) => [...prev, successMessage]);
       setStarForceTier(starForceTier + 1);
       if (starForceTier >= 20) {
-        handleConfetti(); //20성 이상 성공시 컴페티 이펙트
+        handleConfetti(); // 20성 이상 성공 시 컴페티 이펙트
       }
       if (starForceTier >= 29) {
         alert("축하드립니다! 최대 강화에 도달 하셨습니다! - 태초마을로!");
         setStarForceTier(1);
       }
-      //실패
+      // GA4 이벤트: 강화 성공
+      window.gtag("event", "starforce_success", {
+        variable_name: "starForceTier",
+        variable_value: starForceTier + 1, // 성공 후 값
+        success_rate: successRate[starForceTier],
+      });
+
+      // 실패
     } else if (rand <= successRate[starForceTier] + failRate[starForceTier]) {
       console.log(`${starForceTier}성 ▶ 강화 실패!`);
       setResultWindow((prev) => [...prev, failMessage]);
-      //파괴
+      // GA4 이벤트: 강화 실패
+      window.gtag("event", "starforce_fail", {
+        variable_name: "starForceTier",
+        variable_value: starForceTier, // 실패 시 현재 값 유지
+        fail_rate: failRate[starForceTier],
+      });
+
+      // 파괴
     } else {
       console.log(`${starForceTier}성 ▶ 장비 파괴!`);
       setResultWindow((prev) => [...prev, breakMessage]);
       setStarForceTier(12);
       alert("장비가 파괴되었습니다.");
+      // GA4 이벤트: 장비 파괴
+      window.gtag("event", "starforce_break", {
+        variable_name: "starForceTier",
+        variable_value: 12, // 파괴 후 값
+        break_rate:
+          100 - (successRate[starForceTier] + failRate[starForceTier]),
+      });
     }
   }, 300);
 

@@ -38,8 +38,8 @@
 .enchant-content {
   width: 100%;
   display: flex;
-  flex-direction: column; /* 세로 배치로 변경 */
-  align-items: center; /* 가로 중앙 정렬 유지 */
+  flex-direction: column;
+  align-items: center;
 }
 /* 탭 스타일 */
 .tabs {
@@ -60,7 +60,12 @@
 }
 
 .tab.active {
-  background-color: #ffd700;
+  background-color: #ffd900;
+  color: black;
+  font-weight: bold;
+}
+.tab.active2 {
+  background-color: #ffff00af;
   color: black;
   font-weight: bold;
 }

@@ -30,7 +30,10 @@ export function useStarForce() {
     if (starforceTier >= 1 && starforceTier <= 9) {
       cost = 1000 + (Math.pow(L, 3) * (starforceTier + 1)) / 25;
     } else if (starforceTier >= 10 && starforceTier <= 14) {
-      cost = 1000 + (Math.pow(L, 3) * Math.pow(starforceTier + 1, 2.7)) / [400, 220, 150, 110, 75][starforceTier - 10];
+      cost =
+        1000 +
+        (Math.pow(L, 3) * Math.pow(starforceTier + 1, 2.7)) /
+          [400, 220, 150, 110, 75][starforceTier - 10];
     } else if (starforceTier >= 15 && starforceTier <= 24) {
       cost = 1000 + (Math.pow(L, 3) * Math.pow(starforceTier + 1, 2.7)) / 200;
       if (starforceTier === 15 || starforceTier === 16) {
@@ -69,7 +72,18 @@ export function useStarForce() {
     if (feverTimeCount === 2) {
       breakProb = 0;
     } else if (starforceTier >= 15) {
-      const breakChances = { 15: 2.1, 16: 2.1, 17: 2.1, 18: 2.8, 19: 2.8, 20: 7.0, 21: 7.0, 22: 19.4, 23: 29.4, 24: 39.6 };
+      const breakChances = {
+        15: 2.1,
+        16: 2.1,
+        17: 2.1,
+        18: 2.8,
+        19: 2.8,
+        20: 7.0,
+        21: 7.0,
+        22: 19.4,
+        23: 29.4,
+        24: 39.6,
+      };
       breakProb = breakChances[starforceTier] || 0;
 
       if (starforceTier === 15 || starforceTier === 16) {

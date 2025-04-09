@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "npm run build-original && cp robots.txt dist/",
+    "build": "npm run build-original && cp robots.txt dist/ && cp sitemap.xml dist/",
     "build-original": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"

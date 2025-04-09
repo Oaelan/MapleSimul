@@ -867,11 +867,11 @@ function CubeSimulatorInfo() {
         mainStatValue = "INT";
       } else if (itemInfo.mainStat === "STR") {
         mainStatValue = "STR";
-      } else if (itemInfo.mainStat === "HP") {
+      } else if (itemInfo.mainStat === "LUK") {
         mainStatValue = "LUK";
       } else if (itemInfo.mainStat === "DEX") {
         mainStatValue = "DEX";
-      } else if (itemInfo.mainStat === "LUK") {
+      } else if (itemInfo.mainStat === "HP") {
         mainStatValue = "HP";
       } else if (itemInfo.mainStat === "ALL") {
         mainStatValue = "올스탯";
@@ -1039,6 +1039,7 @@ function CubeSimulatorInfo() {
           //나머지 부위들 3유효 검증
           else {
             const potentialVaildOtherOption = ["올스탯", mainStatValue];
+            console.log(potentialVaildOtherOption);
             const isVaild =
               potentialVaildOtherOption.includes(firstOption) &&
               potentialVaildOtherOption.includes(secondOption) &&

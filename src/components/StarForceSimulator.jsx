@@ -56,8 +56,18 @@ function StarForceSimulator({ setResultWindow }) {
   const [catchEnabled, setCatchEnabled] = useState(false);
   // 파괴 방지 채크 여부 state
   const [breakPrevention, setBreakPrevention] = useState(false);
-  //아이템애 이펙트가 터지게 하기 위해서 아이템 아이콘 위치 참조
+  //파과 30퍼센트 감소 state
+  const [breakRateEvent, setBreakRateEvent] = useState(false);
+  //메소 30퍼센트 할인 state
+  const [mesoDiscountEvent, setMesoDiscountEvent] = useState(false);
+  //아이템에 이펙트가 터지게 하기 위해서 아이템 아이콘 위치 참조
   const itemIconRef = useRef(null);
+  //스타포스 티어 값 고정 채크 박스 state
+  const [starForceFix, setStarForceFix] = useState(false);
+
+  const fixStateChange = () => {
+    setStarForceFix(!starForceFix);
+  };
 
   // 스타포스 강화 성공 확률
   const [successRate, setSuccesssRate] = useState([
@@ -96,6 +106,10 @@ function StarForceSimulator({ setResultWindow }) {
     adjustedFail += adjustedBreak; // 파괴 확률을 실패 확률에 추가
     adjustedBreak = 0;
   }
+  if (breakRateEvent && starForceTier <= 21) {
+    adjustedFail += adjustedBreak * 0.3; // 파괴 확률을 실패 확률에 추가
+    adjustedBreak *= 0.7;
+  }
 
   let result = 0;
 
@@ -125,7 +139,10 @@ function StarForceSimulator({ setResultWindow }) {
     if (rand <= successRate[starForceTier]) {
       console.log(`${starForceTier}성 ▶ ${starForceTier + 1}성 강화 성공!`);
       setResultWindow((prev) => [...prev, successMessage]);
-      setStarForceTier(starForceTier + 1);
+      if (starForceFix === false) {
+        //고정 기능이 채크가 안되어 있으면
+        setStarForceTier(starForceTier + 1); // 1성 증가
+      }
       if (starForceTier >= 20) {
         handleConfetti(); // 20성 이상 성공 시 컴페티 이펙트
       }
@@ -133,10 +150,9 @@ function StarForceSimulator({ setResultWindow }) {
         alert("축하드립니다! 최대 강화에 도달 하셨습니다! - 태초마을로!");
         setStarForceTier(1);
       }
-      // GA4 이벤트: 강화 성공
+      // 애널리틱스 이벤트: 강화 성공
       window.gtag("event", "starforce_success", {
-        variable_name: "starForceTier",
-        variable_value: starForceTier + 1, // 성공 후 값
+        starForceTier: starForceTier + 1,
         success_rate: successRate[starForceTier],
       });
 
@@ -144,10 +160,9 @@ function StarForceSimulator({ setResultWindow }) {
     } else if (rand <= successRate[starForceTier] + failRate[starForceTier]) {
       console.log(`${starForceTier}성 ▶ 강화 실패!`);
       setResultWindow((prev) => [...prev, failMessage]);
-      // GA4 이벤트: 강화 실패
+      // 애널리틱스 이벤트: 강화 실패
       window.gtag("event", "starforce_fail", {
-        variable_name: "starForceTier",
-        variable_value: starForceTier, // 실패 시 현재 값 유지
+        starForceTier: starForceTier,
         fail_rate: failRate[starForceTier],
       });
 
@@ -155,12 +170,14 @@ function StarForceSimulator({ setResultWindow }) {
     } else {
       console.log(`${starForceTier}성 ▶ 장비 파괴!`);
       setResultWindow((prev) => [...prev, breakMessage]);
-      setStarForceTier(12);
+      if (starForceFix === false) {
+        //고정 기능이 채크가 안되어 있으면
+        setStarForceTier(12);
+      }
       alert("장비가 파괴되었습니다.");
-      // GA4 이벤트: 장비 파괴
+      // 애널리틱스 이벤트: 장비 파괴
       window.gtag("event", "starforce_break", {
-        variable_name: "starForceTier",
-        variable_value: 12, // 파괴 후 값
+        starForceTier: 12,
         break_rate:
           100 - (successRate[starForceTier] + failRate[starForceTier]),
       });
@@ -214,15 +231,22 @@ function StarForceSimulator({ setResultWindow }) {
     return result;
   };
 
-  //레벨과 스타포스별 갯수가 바꾸면 필요한 메소 업데이트
   useEffect(() => {
-    const baseMeso = needMesoFunction();
-    setNeedMeso(
+    let baseMeso = needMesoFunction();
+
+    // breakPrevention 조건에 따른 메소 계산
+    let adjustedMeso =
       breakPrevention && starForceTier >= 15 && starForceTier <= 17
         ? baseMeso * 3
-        : baseMeso
-    );
-  }, [level, starForceTier, breakPrevention]);
+        : baseMeso;
+
+    if (mesoDiscountEvent) {
+      adjustedMeso *= 0.7;
+    }
+
+    // 최종 값 반올림 후 상태 업데이트
+    setNeedMeso(Math.floor(adjustedMeso));
+  }, [level, starForceTier, breakPrevention, mesoDiscountEvent]);
 
   // 착용 레벨 선택 값 저장
   const handleChange = (e) => {
@@ -260,16 +284,22 @@ function StarForceSimulator({ setResultWindow }) {
               </div>
               <p>
                 <span className="success-rate" id="starForce_Probability">
-                  <div className="text-sm">성공확률: {adjustedSuccess}%</div>
+                  <div className="text-sm">
+                    성공확률: {adjustedSuccess.toFixed(1)}%
+                  </div>
                 </span>
               </p>
               <p>
                 <span className="fail-rate" id="starForcefail_Probability">
-                  <div className="text-sm">실패(유지)확률: {adjustedFail}%</div>
+                  <div className="text-sm">
+                    실패(유지)확률: {adjustedFail.toFixed(1)}%
+                  </div>
                 </span>
               </p>
               <div id="starForcebreak_robability">
-                <div className="text-sm">파괴 확률 : {adjustedBreak}%</div>
+                <div className="text-sm">
+                  파괴 확률 : {adjustedBreak.toFixed(1)}%
+                </div>
               </div>
             </div>
 
@@ -309,9 +339,16 @@ function StarForceSimulator({ setResultWindow }) {
                   </select>
                 </label>
               </p>
+              <p>
+                <input type="checkbox" onChange={fixStateChange}></input>
+                스타포스 고정!
+              </p>
               <p className="mb-1">
                 <span className="cost-value" id="starForce_cost">
-                  필요 메소: {needMeso.toLocaleString("ko-KR")}
+                  필요 메소:{" "}
+                  <span className="text-yellow-500">
+                    {needMeso.toLocaleString("ko-KR")}
+                  </span>
                 </span>
               </p>
               <p className="mb-2">
@@ -324,7 +361,7 @@ function StarForceSimulator({ setResultWindow }) {
               </p>
             </div>
             {/*스타캐치, 파괴방지 */}
-            <div className="options">
+            <div className="options text-sm">
               <div className="checkbox-option">
                 <input
                   type="checkbox"
@@ -332,7 +369,7 @@ function StarForceSimulator({ setResultWindow }) {
                   checked={catchEnabled}
                   onChange={() => setCatchEnabled((prev) => !prev)}
                 />
-                <label>스타캐치!</label>
+                <label>스타캐치</label>
               </div>
 
               <div className="checkbox-option">
@@ -345,6 +382,27 @@ function StarForceSimulator({ setResultWindow }) {
                 <label>파괴방지(15~17성)</label>
               </div>
             </div>
+
+            {/*스타캐치, 파괴방지 */}
+            <div className="options text-xs">
+              <div className="checkbox-option">
+                <input
+                  type="checkbox"
+                  onChange={() => setMesoDiscountEvent((prev) => !prev)}
+                />
+                <label>비용 30% 할인</label>
+              </div>
+
+              <div className="checkbox-option">
+                <input
+                  type="checkbox"
+                  onChange={() => setBreakRateEvent((prev) => !prev)}
+                  disabled={!(starForceTier <= 21)}
+                />
+                <label>21성 이하 파괴 30% 감소</label>
+              </div>
+            </div>
+
             {/*강화 버튼 */}
             <div className="buttons">
               <button className="enhance-btn" onClick={starForceEnhance}>

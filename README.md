@@ -1,5 +1,4 @@
-## 메이플스토리 큐브 / 스타포스 강화 시뮬레이션
-<img width="869" alt="스크린샷 2025-04-17 오후 4 28 39" src="https://github.com/user-attachments/assets/681f6e6e-3d40-4095-a893-6c363a391826" />
+<img width="869" alt="스크린샷 2025-04-17 오후 4 28 39" src="https://github.com/user-attachments/assets/f01d87e3-fe19-4ba6-85ee-776722c88073" />
 
 ### **개요** 
 ```
@@ -16,10 +15,19 @@ Netlify로 배포하고 Google Search Console , Google Analytics 까지 활용�
 
 ### **기술스택**
 - **프레임워크**: React 19
-- **UI 라이브러리**: DaisyUI
-- **스타일링**: Tailwind CSS
-- **상태 관리**: Zustand
-- **빌드 도구**: Vite
+- **UI 라이브러리**: DaisyUI 5.0v / canvas-confetti
+- **스타일링**: Tailwind CSS 4.0v
+- **상태 관리**: Zustand 5.0v
+- **빌드 도구**: Vite 6.0v
 - **배포 플랫폼**: Netlify
 - **분석 도구**: Google Analytics
 - **SEO 관리**: Google Search Console, React-Head
+
+---
+### **핵심 기능**
+- **큐브 시뮬레이션**: 상세히
+
+- **스타포스 강화**: 상세히
+
+
+---

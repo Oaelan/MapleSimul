@@ -570,7 +570,7 @@ function CubeSimulatorInfo() {
         if (level == range.Lv) {
           const weaponKey = `${
             type === "additional" ? "addiEyesAcce" : "eyesAcce"
-          }${range.Lv}`;
+          }Lv${range.Lv}`;
           equiment = AllEquimentOptions[weaponKey];
           equiment = equiment[tier];
         }
@@ -842,19 +842,18 @@ function CubeSimulatorInfo() {
       const [first, second, third] = simulResultOption;
       // 각 옵션을 ':' 기준으로 분리
       // 만약 공격시 ~ 이런 옵션일 경우 ":" 이 포함 되지 않음!!
-      const [firstOption, firstValue] = first.includes(" : ")
-        ? first.split(" : ")
+      const [firstOption, firstValue] = first.includes(":")
+        ? first.split(":")
         : [first, ""];
-      const [secondOption, secondValue] = second.includes(" : ")
-        ? second.split(" : ")
+      const [secondOption, secondValue] = second.includes(":")
+        ? second.split(":")
         : [second, ""];
-      const [thirdOption, thirdValue] = third.includes(" : ")
-        ? third.split(" : ")
+      const [thirdOption, thirdValue] = third.includes(":")
+        ? third.split(":")
         : [third, ""];
       const check1 = checkVaildOption(firstOption, firstValue);
       const check2 = checkVaildOption(secondOption, secondValue);
       const check3 = checkVaildOption(thirdOption, thirdValue);
-
       // 유효 옵션이 % 수치인 경우 true 반환 하나라도 포함안될 경우 false 반환
       // 유효 옵션 수치가 % 인 경우에만 사용
       const isPercent =
@@ -871,8 +870,8 @@ function CubeSimulatorInfo() {
         mainStatValue = "LUK";
       } else if (itemInfo.mainStat === "DEX") {
         mainStatValue = "DEX";
-      } else if (itemInfo.mainStat === "HP") {
-        mainStatValue = "HP";
+      } else if (itemInfo.mainStat === "최대 HP") {
+        mainStatValue = "최대 HP";
       } else if (itemInfo.mainStat === "ALL") {
         mainStatValue = "올스탯";
       }
@@ -914,7 +913,7 @@ function CubeSimulatorInfo() {
               potentialVaildEmblemOption.includes(firstOption) &&
               potentialVaildEmblemOption.includes(secondOption) &&
               potentialVaildEmblemOption.includes(thirdOption);
-            console.log(isVaild, isPercent);
+            // console.log(isVaild, isPercent);
             if (isVaild && isPercent) {
               console.log(firstOption, secondOption, thirdOption);
               setIsThreeOption(true);
@@ -924,9 +923,9 @@ function CubeSimulatorInfo() {
           else if (itemInfo.parts === "hat") {
             const potentialVaildHatOption = [
               "모든 스킬의 재사용 대기시간",
-              "올스탯",
+              mainStatValue !== "최대 HP" ? "올스탯" : "",
               mainStatValue,
-            ];
+            ].filter(Boolean);
             //유효옵션에 해당하면 true
             const isVaild =
               potentialVaildHatOption.includes(firstOption) &&
@@ -953,9 +952,11 @@ function CubeSimulatorInfo() {
           else if (itemInfo.parts === "gloves") {
             const potentialVaildGlovesOption = [
               "크리티컬 데미지",
-              "올스탯",
+              //hp가 주스탯인 경우 올스탯 비활성화
+              mainStatValue !== "최대 HP" ? "올스탯" : "",
               mainStatValue,
-            ];
+            ].filter(Boolean);
+            console.log(potentialVaildGlovesOption);
             //유효옵션에 해당하면 true
             const isVaild =
               potentialVaildGlovesOption.includes(firstOption) &&
@@ -986,19 +987,21 @@ function CubeSimulatorInfo() {
             itemInfo.parts === "pendant" ||
             itemInfo.parts === "earring"
           ) {
+            //console.log(itemInfo.parts);
             // 잠재에서 장신구 3유효 검증 옵션
             const potentialVaildAccessoryOption = [
               "아이템 드롭률",
               "메소 획득량",
-              "올스탯",
+              //hp가 주스탯인 경우 올스탯 비활성화
+              mainStatValue !== "최대 HP" ? "올스탯" : "",
               mainStatValue,
-            ];
+            ].filter(Boolean);
+            //console.log(potentialVaildAccessoryOption);
             //유효 옵션 포함 했는지 여부
             const isVaild =
               potentialVaildAccessoryOption.includes(firstOption) &&
               potentialVaildAccessoryOption.includes(secondOption) &&
               potentialVaildAccessoryOption.includes(thirdOption);
-
             //유효 수치인 경우 유효 검증
             if (isPercent) {
               // 아드 옵션이 2줄 이상인 경우 유효
@@ -1020,7 +1023,7 @@ function CubeSimulatorInfo() {
               }
               // 메인스탯 옵션이 3줄 이상인 경우 유효
               if (isVaild) {
-                console.log(firstOption, secondOption, thirdOption);
+                //console.log(firstOption, secondOption, thirdOption);
                 const mainStatOption = [
                   firstOption,
                   secondOption,
@@ -1038,7 +1041,10 @@ function CubeSimulatorInfo() {
           }
           //나머지 부위들 3유효 검증
           else {
-            const potentialVaildOtherOption = ["올스탯", mainStatValue];
+            const potentialVaildOtherOption = [
+              mainStatValue, //hp가 주스탯인 경우 올스탯 비활성화
+              mainStatValue !== "최대 HP" ? "올스탯" : "",
+            ].filter(Boolean);
             console.log(potentialVaildOtherOption);
             const isVaild =
               potentialVaildOtherOption.includes(firstOption) &&
@@ -1091,7 +1097,9 @@ function CubeSimulatorInfo() {
           else if (itemInfo.parts === "hat") {
             const potentialVaildHatOption = [
               "모든 스킬의 재사용 대기시간",
-              "올스탯",
+              //hp가 주스탯인 경우 올스탯 비활성화
+              mainStatValue !== "최대 HP" ? "올스탯" : "",
+              mainStatValue,
               itemInfo.mainStat === "INT" ? "마력" : "공격력",
               mainStatValue,
               // 주스탯이 올스탯인 경우 캐릭터 기준 9레벨 옵션 유효 아니니까 비워두기
@@ -1101,7 +1109,7 @@ function CubeSimulatorInfo() {
               itemInfo.mainStat === "ALL"
                 ? ""
                 : "캐릭터 기준 9레벨 당 " + itemInfo.mainStat,
-            ];
+            ].filter(Boolean);
             //유효옵션에 해당하면 true
             const isVaild =
               potentialVaildHatOption.includes(firstOption) &&
@@ -1137,7 +1145,8 @@ function CubeSimulatorInfo() {
           else if (itemInfo.parts === "gloves") {
             const additionalVaildGlovesOption = [
               "크리티컬 데미지",
-              "올스탯",
+              //hp가 주스탯인 경우 올스탯 비활성화
+              mainStatValue !== "최대 HP" ? "올스탯" : "",
               itemInfo.mainStat === "INT" ? "마력" : "공격력",
               mainStatValue,
               // 주스탯이 올스탯인 경우 캐릭터 기준 9레벨 옵션 유효 아니니까 비워두기
@@ -1147,7 +1156,7 @@ function CubeSimulatorInfo() {
               itemInfo.mainStat === "ALL"
                 ? ""
                 : "캐릭터 기준 9레벨 당 " + itemInfo.mainStat,
-            ];
+            ].filter(Boolean);
             //유효옵션에 해당하면 true
             const isVaild =
               additionalVaildGlovesOption.includes(firstOption) &&
@@ -1182,7 +1191,8 @@ function CubeSimulatorInfo() {
           //나머지 부위들 3유효 검증
           else {
             const additionalVaildOtherOption = [
-              "올스탯",
+              //hp가 주스탯인 경우 올스탯 비활성화
+              mainStatValue !== "최대 HP" ? "올스탯" : "",
               mainStatValue,
               itemInfo.mainStat === "INT" ? "마력" : "공격력",
               // 주스탯이 올스탯인 경우 캐릭터 기준 9레벨 옵션 유효 아니니까 비워두기
@@ -1192,7 +1202,7 @@ function CubeSimulatorInfo() {
               itemInfo.mainStat === "ALL"
                 ? ""
                 : "캐릭터 기준 9레벨 당 " + itemInfo.mainStat,
-            ];
+            ].filter(Boolean);
             //유효 옵션에 해당하는 경우
             const isVaild =
               additionalVaildOtherOption.includes(firstOption) &&
@@ -1226,7 +1236,7 @@ function CubeSimulatorInfo() {
   }, [simulResultOption, setIsThreeOption]);
   useEffect(() => {
     if (isThreeOption) {
-      alert("3줄 유효띄움!!");
+      //alert("축하합니다! 3줄 유효 옵션을 찾았습니다!");
     }
   }, [isThreeOption]);
   // 아이템 등급업 횟수 천장값 가져오기

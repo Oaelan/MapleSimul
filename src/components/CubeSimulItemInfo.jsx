@@ -141,8 +141,8 @@ function CubeSimulItemInfo({
             <option value="INT">INT</option>
             <option value="LUK">LUK</option>
             <option value="DEX">DEX</option>
-            <option value="HP">HP</option>
-            <option value="ALL">ALL</option>
+            <option value="최대 HP">HP(데몬 어벤져 전용)</option>
+            <option value="ALL">ALL(제논 전용)</option>
           </select>
         </div>
         {/* 초기화 버튼 */}

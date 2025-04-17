@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import SimulTypeButton from "./components/SimulTypeButton";
 import { useThreeOption } from "./store";
 import confetti from "canvas-confetti";
-import { HeadProvider, Title, Meta } from "react-head";
+import { HeadProvider, Meta } from "react-head";
 function App() {
   const [selectedSimulator, setSelectedSimulator] = useState("cube");
   const isThreeOption = useThreeOption((state) => state.isThreeOption);
@@ -73,7 +73,6 @@ function App() {
     <>
       <HeadProvider>
         <div className="App">
-          <Title>메이플스토리 큐브/스타포스 시뮬레이터</Title>
           <Meta property="og:type" content="website" />
           <Meta property="og:url" content="https://maplesimul.netlify.app/" />
           <Meta

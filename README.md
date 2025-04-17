@@ -1,5 +1,8 @@
 <img width="1680" alt="스크린샷 2025-04-17 오후 4 51 02" src="https://github.com/user-attachments/assets/cf2751bb-5409-481e-a252-f056b8b15979" />
 
+🔗 **[Live Demo](https://maplesimul.netlify.app/)** | **[GitHub](https://github.com/Oaelan/MapleSimul)**
+---
+
 ### **개요** 
 ```
 메이플스토리 큐브 및 스타포스 강화 시뮬레이션을 제공하는 웹앱으로,

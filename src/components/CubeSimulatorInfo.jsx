@@ -842,15 +842,18 @@ function CubeSimulatorInfo() {
       const [first, second, third] = simulResultOption;
       // 각 옵션을 ':' 기준으로 분리
       // 만약 공격시 ~ 이런 옵션일 경우 ":" 이 포함 되지 않음!!
-      const [firstOption, firstValue] = first.includes(":")
-        ? first.split(":")
-        : [first, ""];
-      const [secondOption, secondValue] = second.includes(":")
-        ? second.split(":")
-        : [second, ""];
-      const [thirdOption, thirdValue] = third.includes(":")
-        ? third.split(":")
-        : [third, ""];
+      // 옵션 문자열에서 옵션명과 값을 추출하는 함수
+      const extractOptionAndValue = (optionStr) => {
+        if (optionStr.includes(":")) {
+          const [option, value] = optionStr.split(":");
+          return [option.trim(), value.trim()];
+        }
+        return [optionStr.trim(), ""];
+      };
+      // 함수 사용
+      const [firstOption, firstValue] = extractOptionAndValue(first);
+      const [secondOption, secondValue] = extractOptionAndValue(second);
+      const [thirdOption, thirdValue] = extractOptionAndValue(third);
       const check1 = checkVaildOption(firstOption, firstValue);
       const check2 = checkVaildOption(secondOption, secondValue);
       const check3 = checkVaildOption(thirdOption, thirdValue);
@@ -1046,6 +1049,7 @@ function CubeSimulatorInfo() {
               mainStatValue !== "최대 HP" ? "올스탯" : "",
             ].filter(Boolean);
             console.log(potentialVaildOtherOption);
+            console.log(firstOption, secondOption, thirdOption);
             const isVaild =
               potentialVaildOtherOption.includes(firstOption) &&
               potentialVaildOtherOption.includes(secondOption) &&

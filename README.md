@@ -26,6 +26,12 @@ Netlify로 배포하고 Google Search Console , Google Analytics 까지 활용�
 ---
 ### **핵심 기능**
 - **큐브 시뮬레이션**: 메이플스토리 큐브 시스템(윗잠/아랫잠)을 재현해 장비별, 레벨 제한별, 등급별 옵션과 확률을 시뮬레이션합니다. `zustand`로 시뮬레이션 아이템 정보(`itemInfo`)를 전역 상태로 관리하고, `useRef`로 `tierUpCount`와 `isTierUp`을 관리해 불필요한 리렌더링을 방지했습니다. `simulCount` 상태의 리렌더링을 활용해 `TIER UP!` 애니메이션을 효율적으로 표시하며, `whiteCubeOptions.js`와 가중치 알고리즘으로 실제 게임과 유사한 결과를 생성했습니다. DaisyUI와 `canvas-confetti`로 직관적이고 몰입감 있는 UI를 구현했습니다.
+-   **기술적 구현**:
+  - **상태 관리**: `zustand`를 활용해 시뮬레이션 아이템 정보(`itemInfo`)를 전역 상태로 관리하여 컴포넌트 간 일관된 데이터 흐름 보장
+  - **최적화**: `useRef`로 `tierUpCount`와 `isTierUp` 상태를 관리해 불필요한 리렌더링 방지
+  - **애니메이션 효과**: `simulCount` 상태를 활용한 리렌더링으로 등급 상승 시 `TIER UP!` 애니메이션을 효율적으로 구현
+  - **확률 시스템**: 실제 인게임 옵션 확률을 기반으로 작성한 `blackCubeOptions.js / whiteCubeOptions.js`에서 일원화된 옵션 데이터 관리
+  - **UI/UX**: DaisyUI 컴포넌트와 `canvas-confetti` 라이브러리를 통해 희귀 옵션 획득 시 시각적 피드백 제공
 
 - **스타포스 강화**: 상세히
 

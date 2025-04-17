@@ -108,7 +108,7 @@ function App() {
        drop-shadow-[0_2px_4px_rgba(255,170,0,0.4)]
        font-bold w-full text-center"
         >
-          메이플 큐브 / 스타포스 시뮬레이터
+          <h1>메이플 큐브 / 스타포스 시뮬레이터</h1>
         </header>
         {/* 큐브 시뮬레이터 버튼 */}
         <SimulTypeButton setSelectedSimulator={setSelectedSimulator} />

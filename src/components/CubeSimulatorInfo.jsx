@@ -1262,7 +1262,7 @@ function CubeSimulatorInfo() {
       <div className="w-full h-full " id="cubeSimulator">
         {/*큐브 시뮬 타이틀*/}
         <div id="cube-title">
-          <span>CUBE SIMULATOR</span>
+          <h1>CUBE SIMULATOR</h1>
         </div>
         {/* 큐브 본체 */}
         <div id="cube-body" className="flex flex-row">

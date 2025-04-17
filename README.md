@@ -1,4 +1,4 @@
-<img width="869" alt="스크린샷 2025-04-17 오후 4 28 39" src="https://github.com/user-attachments/assets/f01d87e3-fe19-4ba6-85ee-776722c88073" />
+<img width="1680" alt="스크린샷 2025-04-17 오후 4 51 02" src="https://github.com/user-attachments/assets/cf2751bb-5409-481e-a252-f056b8b15979" />
 
 ### **개요** 
 ```

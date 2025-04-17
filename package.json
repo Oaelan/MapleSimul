@@ -17,6 +17,7 @@
     "react-canvas-confetti": "^2.0.7",
     "react-confetti": "^6.4.0",
     "react-dom": "^19.0.0",
+    "react-head": "^3.4.2",
     "tailwind-scrollbar": "^4.0.1",
     "usehooks-ts": "^3.1.1",
     "zustand": "^5.0.3"

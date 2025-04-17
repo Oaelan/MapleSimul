@@ -2,10 +2,10 @@ import "./App.css";
 import CubeSimulator from "./components/CubeSimulator";
 import StarForce from "./components/StarForce";
 import { useState, useEffect } from "react";
-import Footer from "./components/Footer";
 import SimulTypeButton from "./components/SimulTypeButton";
 import { useThreeOption } from "./store";
 import confetti from "canvas-confetti";
+import { HeadProvider, Title, Meta } from "react-head";
 function App() {
   const [selectedSimulator, setSelectedSimulator] = useState("cube");
   const isThreeOption = useThreeOption((state) => state.isThreeOption);
@@ -70,21 +70,54 @@ function App() {
     }
   }, [isThreeOption]);
   return (
-    <div className="items-center h-full  w-full gap-3 sm:gap-10 flex flex-col">
-      <header
-        className="text-yellow-300 font-Galmuri11
+    <>
+      <HeadProvider>
+        <div className="App">
+          <Title>메이플스토리 큐브/스타포스 시뮬레이터</Title>
+          <Meta property="og:type" content="website" />
+          <Meta property="og:url" content="https://maplesimul.netlify.app/" />
+          <Meta
+            property="og:title"
+            content="메이플스토리 큐브/스타포스 시뮬레이터"
+          />
+          <Meta
+            property="og:description"
+            content="메이플스토리 최신 버전의 큐브,스타포스 시뮬레이터입니다."
+          />
+
+          <Meta
+            property="og:description"
+            content="메이플스토리 최신 버전의 큐브,스타포스 시뮬레이터입니다.
+            총 재설정 비용 및 유효 옵션 확인이 가능하며 스타포스 강화
+            또한 최신 버전으로 사용 가능합니다."
+          />
+          <Meta
+            name="keywords"
+            content="메이플스토리, 큐브, 스타포스, 시뮬레이터, 레드큐브,
+            블랙큐브, 에디셔널큐브, 강화, 메이플,maplesimul,maple,cube,starforce,simulator
+            메이플시뮬,메이플강화,메이플스토리강화,메이플스토리큐브,메이플스토리스타포스
+            메이플스토리큐브시뮬,메이플스토리스타포스시뮬"
+          />
+          <Meta name="author" content="Oaelan, Dongzzang99" />
+          {/* 나머지 앱 콘텐츠 */}
+        </div>
+      </HeadProvider>
+      <div className="items-center h-full  w-full gap-3 sm:gap-10 flex flex-col">
+        <header
+          className="text-yellow-300 font-Galmuri11
        p-5 sm:p-10 pb-3 text-[20px] sm:text-4xl
        drop-shadow-[0_2px_4px_rgba(255,170,0,0.4)]
        font-bold w-full text-center"
-      >
-        메이플 큐브 / 스타포스 시뮬레이터
-      </header>
-      {/* 큐브 시뮬레이터 버튼 */}
-      <SimulTypeButton setSelectedSimulator={setSelectedSimulator} />
-      <div className="flex flex-col items-center w-full p-3 sm:px-30 py-10">
-        {selectedSimulator === "cube" ? <CubeSimulator /> : <StarForce />}
+        >
+          메이플 큐브 / 스타포스 시뮬레이터
+        </header>
+        {/* 큐브 시뮬레이터 버튼 */}
+        <SimulTypeButton setSelectedSimulator={setSelectedSimulator} />
+        <div className="flex flex-col items-center w-full p-3 sm:px-30 py-10">
+          {selectedSimulator === "cube" ? <CubeSimulator /> : <StarForce />}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

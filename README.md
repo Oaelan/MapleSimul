@@ -13,15 +13,18 @@ Netlify로 배포하고 Google Search Console , Google Analytics 까지 활용�
 
 
 
-### **기술스택**
-- **프레임워크**: React 19
-- **UI 라이브러리**: DaisyUI 5.0v / canvas-confetti
-- **스타일링**: Tailwind CSS 4.0v
-- **상태 관리**: Zustand 5.0v
-- **빌드 도구**: Vite 6.0v
-- **배포 플랫폼**: Netlify
-- **분석 도구**: Google Analytics
-- **SEO 관리**: Google Search Console, React-Head
+## 기술 스택
+
+| 카테고리          | 기술                                                                 |
+|-------------------|----------------------------------------------------------------------|
+| **프레임워크**    | <img src="https://cdn.jsdelivr.net/npm/simple-icons@v12/icons/react.svg" width="20" height="20"> React 19 |
+| **UI 라이브러리** | <img src="https://cdn.jsdelivr.net/npm/simple-icons@v12/icons/tailwindcss.svg" width="20" height="20"> DaisyUI 5.0v <br> <img src="https://cdn.jsdelivr.net/npm/simple-icons@v12/icons/npm.svg" width="20" height="20"> canvas-confetti |
+| **스타일링**      | <img src="https://cdn.jsdelivr.net/npm/simple-icons@v12/icons/tailwindcss.svg" width="20" height="20"> Tailwind CSS 4.0v |
+| **상태 관리**     | ![Zustand](https://img.shields.io/badge/Zustand-5.0v-20232A?style=flat&logo=react&logoColor=FFD700) |
+| **빌드 도구**     | <img src="https://cdn.jsdelivr.net/npm/simple-icons@v12/icons/vite.svg" width="20" height="20"> Vite 6.0v |
+| **배포 플랫폼**   | <img src="https://cdn.jsdelivr.net/npm/simple-icons@v12/icons/netlify.svg" width="20" height="20"> Netlify |
+| **분석 도구**     | <img src="https://cdn.jsdelivr.net/npm/simple-icons@v12/icons/googleanalytics.svg" width="20" height="20"> Google Analytics |
+| **SEO 관리**      | <img src="https://cdn.jsdelivr.net/npm/simple-icons@v12/icons/googlesearchconsole.svg" width="20" height="20"> Google Search Console <br> ![React-Head](https://img.shields.io/badge/React_Head-SEO-20232A?style=flat&logo=react&logoColor=61DAFB) |
 
 ---
 ### **핵심 기능**

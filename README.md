@@ -40,7 +40,10 @@ Netlify로 배포하고 Google Search Console , Google Analytics 까지 활용�
   - **확률 시스템**: 실제 인게임 옵션 확률을 기반으로 작성한 `blackCubeOptions.js / whiteCubeOptions.js`에서 일원화된 옵션 데이터 관리
   - **UI/UX**: DaisyUI 컴포넌트와 `canvas-confetti` 라이브러리를 통해 희귀 옵션 획득 시 시각적 피드백 제공
 ---
-- **스타포스 강화**: 상세히
+- **스타포스 시뮬레이션**: 메이플스토리의 스타포스 강화 시스템을 재현하여 아이템의 등급별, 레벨별 필요한 재화를 다르게 설정하고, 게임 내에 존재하는 많은 이벤트나 상황들을 여러 선택지(버튼)을 통해 다양한 상황에서 대비할수 있도록 시뮬레이션합니다. 
+
+- **기술적 구현**:
+ https://github.com/Oaelan/MapleSimul/blob/305b6a23b41642c24207adffae0b82fd7aa9f006/src/components/StarForceSimulator.jsx#L24C2-L31C51
 
 
 ---

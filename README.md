@@ -1,4 +1,4 @@
-<img width="1680" alt="스크린샷 2025-04-17 오후 4 51 02" src="https://github.com/user-attachments/assets/cf2751bb-5409-481e-a252-f056b8b15979" />
+<img width="1486" alt="스크린샷 2025-04-23 오후 3 11 57" src="https://github.com/user-attachments/assets/b8521132-fbca-437d-8196-b247d584d1fd" /><img width="1680" alt="스크린샷 2025-04-17 오후 4 51 02" src="https://github.com/user-attachments/assets/cf2751bb-5409-481e-a252-f056b8b15979" />
 
 🔗 **[Live Demo](https://maplesimul.netlify.app/)** | **[GitHub](https://github.com/Oaelan/MapleSimul)**
 ---
@@ -56,7 +56,9 @@ React의 상태 관리 훅을 활용하여 스타포스 단계, 착용 레벨, �
   - 강화 결과는 성공/실패/파괴 메시지로 표시되며,  `Google Analytics(gtag)`를 통해 이벤트가 기록됩니다.
 ---
 ### 사용방법
- -큐브 시뮬레이션
+ - 큐브 시뮬레이션
+ <img width="1486" alt="스크린샷 2025-04-23 오후 3 11 57" src="https://github.com/user-attachments/assets/69b4d62a-4480-474c-8d01-98a741e3d229" />
+
 1. 시뮬레이션할 장비 부위 , 레벨  범위, 옵션 등급, 직업 주스탯, 윗잠/아랫잠 , 잠재비용 선택
 2. 잠재 능력 재설정 버튼을 눌러 시뮬레이션 실행
 3. 시뮬레이션 결과는 결과창에 쌓이게 되며 확인 가능

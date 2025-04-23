@@ -1,4 +1,4 @@
-<img width="1486" alt="스크린샷 2025-04-23 오후 3 11 57" src="https://github.com/user-attachments/assets/b8521132-fbca-437d-8196-b247d584d1fd" /><img width="1680" alt="스크린샷 2025-04-17 오후 4 51 02" src="https://github.com/user-attachments/assets/cf2751bb-5409-481e-a252-f056b8b15979" />
+<img width="1680" alt="스크린샷 2025-04-17 오후 4 51 02" src="https://github.com/user-attachments/assets/cf2751bb-5409-481e-a252-f056b8b15979" />
 
 🔗 **[Live Demo](https://maplesimul.netlify.app/)** | **[GitHub](https://github.com/Oaelan/MapleSimul)**
 ---

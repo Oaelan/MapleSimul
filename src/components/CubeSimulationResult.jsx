@@ -4,7 +4,6 @@ import {
   useTierUpHistory,
   useSimulResultOption,
 } from "../store";
-import { useEffect, useRef } from "react";
 function CubeSimulationResult() {
   const Allcount = useAllcount((state) => state.Allcount);
   const meso = useMeso((state) => state.meso);
@@ -41,7 +40,7 @@ function CubeSimulationResult() {
   };
 
   return (
-    <div className="flex flex-col gap-9 h-full">
+    <article className="flex flex-col gap-9 h-full">
       <div className="h-full" id="cubeSimulator">
         {/*큐브 시뮬 타이틀*/}
         <div id="cube-title">
@@ -123,7 +122,7 @@ function CubeSimulationResult() {
           {/* 딸깍으로 원하는 값 시뮬레이션 하기 */}
         </div>
       </div>
-    </div>
+    </article>
   );
 }
 

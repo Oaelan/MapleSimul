@@ -1263,83 +1263,85 @@ function CubeSimulatorInfo() {
     }
   }, [itemInfo.type, itemInfo.tier]);
   return (
-    <div className="w-full h-full flex items-center">
-      <div className="w-full h-full " id="cubeSimulator">
-        {/*큐브 시뮬 타이틀*/}
-        <div id="cube-title">
-          <h1>CUBE SIMULATOR</h1>
-        </div>
-        {/* 큐브 본체 */}
-        <div id="cube-body" className="flex flex-row">
-          {/* 큐브 상단 */}
-          <div id="cube-header">
-            {itemInfo.type === "potential" ? (
-              <img src="../img/blackCue.jpg" id="cubeImg" alt="큐브" />
-            ) : (
-              <img src="../img/AdditionalCube.jpg" id="cubeImg" alt="큐브" />
-            )}
-            <p>
-              시뮬레이션 <span>아이템 정보</span>를 선택해주세요!
-            </p>
+    <section>
+      <div className="w-full h-full flex items-center">
+        <div className="w-full h-full " id="cubeSimulator">
+          {/*큐브 시뮬 타이틀*/}
+          <div id="cube-title">
+            <h1>CUBE SIMULATOR</h1>
           </div>
-          <CubeSimulItemInfo
-            setCubeCost={setCubeCost}
-            itemInfo={itemInfo}
-            setItemInfo={setItemInfo}
-            simulCount={simulCount}
-            setKoreanTier={setKoreanTier}
-            setTierUpCount={resetTierUpCount}
-            setSimulCount={setSimulCount}
-            setCapValue={setCapValue}
-          />
-          {/* 장비 이미지 */}
-          <div id="item-imageDv">
-            {isTierUp.current && (
-              <div className="tier-up-animation">TIER UP!</div>
-            )}
-            {itemInfo.parts && (
-              <img src={`../img/${itemInfo.parts}.png`} alt="장비" />
-            )}
-          </div>
-          {/* 결과 영역 애프터 */}
-          <div id="cube-after">
-            <div id="cube-after-info" className="h-[190px]">
-              {/* 천장 카운트 표시 추후에 수정좀 해야함 !! */}
-              <div className="flex flex-col gap-2 items-center justify-center">
-                <span className="text-sm font-galmuri text-white">
-                  {koreanTier === "레전드리"
-                    ? "MAX"
-                    : `천장 ${tierUpCount.current} / ${capValue || "0"}`}
-                </span>
-                <div className="bg-amber-300 w-full h-[3px]"></div>
-              </div>
-              <p className="cube-tier" id="after-cube-tier">
-                {koreanTier}
+          {/* 큐브 본체 */}
+          <div id="cube-body" className="flex flex-row">
+            {/* 큐브 상단 */}
+            <div id="cube-header">
+              {itemInfo.type === "potential" ? (
+                <img src="../img/blackCue.jpg" id="cubeImg" alt="큐브" />
+              ) : (
+                <img src="../img/AdditionalCube.jpg" id="cubeImg" alt="큐브" />
+              )}
+              <p>
+                시뮬레이션 <span>아이템 정보</span>를 선택해주세요!
               </p>
-
-              <ul
-                className="text-white flex gap-3 p-2 px-5 cube-stats"
-                id="after-stats"
-              >
-                {simulResultOption.map((item, index) => (
-                  <li key={index}>{item}</li>
-                ))}
-              </ul>
             </div>
-            {/* 버튼 영역 */}
-            <div id="cube-footer">
-              <button
-                onClick={handleCubeSimulClick}
-                className="cube-button"
-                id="oneMoreBtn"
-              >
-                잠재 능력 재설정
-              </button>
+            <CubeSimulItemInfo
+              setCubeCost={setCubeCost}
+              itemInfo={itemInfo}
+              setItemInfo={setItemInfo}
+              simulCount={simulCount}
+              setKoreanTier={setKoreanTier}
+              setTierUpCount={resetTierUpCount}
+              setSimulCount={setSimulCount}
+              setCapValue={setCapValue}
+            />
+            {/* 장비 이미지 */}
+            <div id="item-imageDv">
+              {isTierUp.current && (
+                <div className="tier-up-animation">TIER UP!</div>
+              )}
+              {itemInfo.parts && (
+                <img src={`../img/${itemInfo.parts}.png`} alt="장비" />
+              )}
+            </div>
+            {/* 결과 영역 애프터 */}
+            <div id="cube-after">
+              <div id="cube-after-info" className="h-[190px]">
+                {/* 천장 카운트 표시 추후에 수정좀 해야함 !! */}
+                <div className="flex flex-col gap-2 items-center justify-center">
+                  <span className="text-sm font-galmuri text-white">
+                    {koreanTier === "레전드리"
+                      ? "MAX"
+                      : `천장 ${tierUpCount.current} / ${capValue || "0"}`}
+                  </span>
+                  <div className="bg-amber-300 w-full h-[3px]"></div>
+                </div>
+                <p className="cube-tier" id="after-cube-tier">
+                  {koreanTier}
+                </p>
+
+                <ul
+                  className="text-white flex gap-3 p-2 px-5 cube-stats"
+                  id="after-stats"
+                >
+                  {simulResultOption.map((item, index) => (
+                    <li key={index}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+              {/* 버튼 영역 */}
+              <div id="cube-footer">
+                <button
+                  onClick={handleCubeSimulClick}
+                  className="cube-button"
+                  id="oneMoreBtn"
+                >
+                  잠재 능력 재설정
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 export default CubeSimulatorInfo;

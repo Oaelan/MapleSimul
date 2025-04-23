@@ -180,8 +180,7 @@ function CubeSimulatorInfo() {
   const isThrottledRef = useRef(false);
   //총 재설정 비용
   const calculateMeso = useMeso((state) => state.calculateMeso);
-  //등급 업을 위한 카운트 state
-  //const [tierUpCount, setTierUpCount] = useState(0);
+  //등급 업을 위한 카운트 ref
   const tierUpCount = useRef(0);
   // 등급업 후 tierUpCount 리셋
   const resetTierUpCount = () => {
@@ -302,7 +301,9 @@ function CubeSimulatorInfo() {
     }
 
     // 등급업 조건 확인
+    // 천장값 조건
     const isCeilingReached = tierUpCount.current >= capValue[beforeTier]?.count;
+    // 등급업 확률 조건
     const random = Math.random() * 100;
     const isProbabilitySuccess =
       random < upgradeProbabilities[beforeTier]?.chance;

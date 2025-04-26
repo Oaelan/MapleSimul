@@ -220,7 +220,7 @@ function CubeSimulatorInfo() {
         increaseAllcount();
         handleSimul();
         // 애널리틱스 이벤트: 큐브 시뮬레이션 클릭
-        gtag("event", "cube_simul_click", {
+        window.gtag("event", "cube_simul_click", {
           item_type: itemInfo.type,
           item_parts: itemInfo.parts,
           item_level: itemInfo.level,

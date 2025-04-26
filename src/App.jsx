@@ -5,7 +5,6 @@ import { useState, useEffect } from "react";
 import SimulTypeButton from "./components/SimulTypeButton";
 import { useThreeOption } from "./store";
 import confetti from "canvas-confetti";
-import { HeadProvider, Meta } from "react-head";
 function App() {
   const [selectedSimulator, setSelectedSimulator] = useState("cube");
   const isThreeOption = useThreeOption((state) => state.isThreeOption);

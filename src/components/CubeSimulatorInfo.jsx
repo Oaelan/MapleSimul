@@ -163,7 +163,7 @@ import {
   addiSubWeaponForceShieldAndSoulRingLv100,
   addiSubWeaponForceShieldAndSoulRingLv110,
 } from "../whiteCubeOptions";
-
+import { gtag } from "../utils/gtag";
 function CubeSimulatorInfo() {
   //console.log("CubeSimulatorInfo 렌더링");
   const isTierUp = useRef(false);
@@ -219,6 +219,15 @@ function CubeSimulatorInfo() {
         ///cubeSimulartorResult 컴포넌트에서 실행되는 총 시뮬레이션 횟수
         increaseAllcount();
         handleSimul();
+        // 애널리틱스 이벤트: 큐브 시뮬레이션 클릭
+        gtag("event", "cube_simul_click", {
+          item_type: itemInfo.type,
+          item_parts: itemInfo.parts,
+          item_level: itemInfo.level,
+          item_tier: itemInfo.tier,
+          item_cost_range: itemInfo.costRange,
+          item_main_stat: itemInfo.mainStat,
+        });
       } else {
         alert("시뮬레이션 정보를 입력하세요.");
         return;

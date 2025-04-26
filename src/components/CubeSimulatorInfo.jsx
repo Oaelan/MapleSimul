@@ -163,7 +163,6 @@ import {
   addiSubWeaponForceShieldAndSoulRingLv100,
   addiSubWeaponForceShieldAndSoulRingLv110,
 } from "../whiteCubeOptions";
-import { gtag } from "../utils/gtag";
 function CubeSimulatorInfo() {
   //console.log("CubeSimulatorInfo 렌더링");
   const isTierUp = useRef(false);

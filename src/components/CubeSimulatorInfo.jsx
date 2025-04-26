@@ -195,6 +195,7 @@ function CubeSimulatorInfo() {
   const setIsThreeOption = useThreeOption((state) => state.setIsThreeOption);
   // 시뮬레이션 총 횟수 (전연벽수로 관리)
   const increaseAllcount = useAllcount((state) => state.increaseAllcount);
+  const allcount = useAllcount((state) => state.Allcount);
   //시뮬레이션 결과 옵션 3줄 (전역변수로 관리)
   const { simulResultOption, setSimulResultOption } = useSimulResultOption();
   //등급업한 이력 관리 state
@@ -1263,7 +1264,7 @@ function CubeSimulatorInfo() {
         item_parts: itemInfo.parts,
         item_tier: itemInfo.tier,
         item_main_stat: itemInfo.mainStat,
-        allcount: increaseAllcount,
+        allcount: allcount,
         usedMeso: meso,
         three_option: simulResultOption,
       });

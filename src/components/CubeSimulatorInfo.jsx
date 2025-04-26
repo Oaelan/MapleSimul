@@ -179,6 +179,7 @@ function CubeSimulatorInfo() {
   const isThrottledRef = useRef(false);
   //총 재설정 비용
   const calculateMeso = useMeso((state) => state.calculateMeso);
+  const meso = useMeso((state) => state.meso);
   //등급 업을 위한 카운트 ref
   const tierUpCount = useRef(0);
   // 등급업 후 tierUpCount 리셋
@@ -1262,6 +1263,8 @@ function CubeSimulatorInfo() {
         item_parts: itemInfo.parts,
         item_tier: itemInfo.tier,
         item_main_stat: itemInfo.mainStat,
+        allcount: increaseAllcount,
+        usedMeso: meso,
         three_option: simulResultOption,
       });
     }

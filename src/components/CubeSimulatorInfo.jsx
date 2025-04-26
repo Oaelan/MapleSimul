@@ -327,6 +327,12 @@ function CubeSimulatorInfo() {
       // 등급업 상태 업데이트
       upgradeTier(nextTier); //store에서 관리되는 시뮬아이템 정보의 등급 업데이트
       isTierUp.current = true;
+      window.gtag("event", "cube_tier_up", {
+        item_type: itemInfo.type,
+        item_before_tier: itemInfo.tier,
+        item_after_tier: nextTier,
+        tier_up_reason: isCeilingReached ? "천장" : "기본 확률",
+      });
       resetTierUpCount();
 
       // 애니메이션 타이머 설정
@@ -920,7 +926,7 @@ function CubeSimulatorInfo() {
               itemInfo.mainStat === "INT"
                 ? ["마력", "몬스터 방어율 무시"]
                 : ["공격력", "몬스터 방어율 무시"];
-            console.log(potentialVaildEmblemOption);
+            //console.log(potentialVaildEmblemOption);
             const isVaild =
               potentialVaildEmblemOption.includes(firstOption) &&
               potentialVaildEmblemOption.includes(secondOption) &&
@@ -1057,8 +1063,8 @@ function CubeSimulatorInfo() {
               mainStatValue, //hp가 주스탯인 경우 올스탯 비활성화
               mainStatValue !== "최대 HP" ? "올스탯" : "",
             ].filter(Boolean);
-            console.log(potentialVaildOtherOption);
-            console.log(firstOption, secondOption, thirdOption);
+            //console.log(potentialVaildOtherOption);
+            //console.log(firstOption, secondOption, thirdOption);
             const isVaild =
               potentialVaildOtherOption.includes(firstOption) &&
               potentialVaildOtherOption.includes(secondOption) &&
@@ -1250,6 +1256,14 @@ function CubeSimulatorInfo() {
   useEffect(() => {
     if (isThreeOption) {
       //alert("축하합니다! 3줄 유효 옵션을 찾았습니다!");
+      // 애널리틱스 이벤트: 큐브 시뮬레이션 3줄 유효 옵션 찾음
+      window.gtag("event", "cube_simul_three_option", {
+        item_type: itemInfo.type,
+        item_parts: itemInfo.parts,
+        item_tier: itemInfo.tier,
+        item_main_stat: itemInfo.mainStat,
+        three_option: simulResultOption,
+      });
     }
   }, [isThreeOption]);
   // 아이템 등급업 횟수 천장값 가져오기
